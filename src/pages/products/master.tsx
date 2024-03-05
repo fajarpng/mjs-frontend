@@ -1,14 +1,15 @@
-import { Table, TextInput } from "flowbite-react";
+import { Card, Dropdown, Table, TextInput } from "flowbite-react";
 import type { FC } from "react";
+import { FaList } from "react-icons/fa";
 import TabelComponent from "../../components/tabel";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 
 const MasterBarangPage: FC = function () {
-  const header = ["id", "name", "code", "quantity", "description"];
+  const header = ["nip", "name", "code", "quantity", "description", "action"];
 
   return (
     <NavbarSidebarLayout isFooter={false}>
-      <div className="block items-center justify-between border-b border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex">
+      <div className="block items-center justify-between border-b border-gray-200 bg-white p-2 dark:border-gray-700 dark:bg-gray-800 sm:flex">
         {/* header */}
         <div className="mb-1 w-full">
           {/* title */}
@@ -32,31 +33,46 @@ const MasterBarangPage: FC = function () {
         </div>
       </div>
       {/* tabel */}
-      <TabelComponent header={header} pagination={dummy}>
-        <Table.Body>
-          {dummy.products.map((v, i) => (
-            <Table.Row
-              className="hover:bg-gray-100 dark:hover:bg-gray-700"
-              key={i}
-            >
-              <Table.Cell className="w-4 p-4">{v.id}</Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                {v.productName}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                {v.productCode}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                {v.qty}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                {v.description}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </TabelComponent>
+      <Card className=" m-2">
+        <TabelComponent header={header} pagination={dummy}>
+          <Table.Body>
+            {dummy.products.map((v, i) => (
+              <Table.Row
+                className="hover:bg-gray-100 dark:hover:bg-gray-700"
+                key={i}
+              >
+                <Table.Cell className="w-4 p-2">{v.id}</Table.Cell>
+                <Table.Cell className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
+                  {v.productName}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
+                  {v.productCode}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
+                  {v.qty}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
+                  {v.description}
+                </Table.Cell>
+                <Table.Cell className="w-4">
+                  <ActionMenu />
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </TabelComponent>
+      </Card>
     </NavbarSidebarLayout>
+  );
+};
+
+const ActionMenu = () => {
+  return (
+    <Dropdown label={<FaList />} arrowIcon={false}>
+      <Dropdown.Item>See Detail</Dropdown.Item>
+      <Dropdown.Item>Edit</Dropdown.Item>
+      <Dropdown.Item>Delete</Dropdown.Item>
+    </Dropdown>
   );
 };
 
@@ -64,9 +80,10 @@ export default MasterBarangPage;
 
 // eslint-disable-next-line no-unused-vars
 const dummy = {
-  totalCount: 3,
-  pageIndex: 1,
-  pageSize: 10,
+  pageIndex: 3,
+  pageSize: 1,
+  pageCount: 10,
+  totalCount: 10,
   products: [
     {
       id: 1,

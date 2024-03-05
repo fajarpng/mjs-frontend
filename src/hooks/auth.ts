@@ -1,23 +1,20 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-interface TUserState {
-  name?: string;
-  token?: string;
-}
+import type { TEmployee } from "../types";
 
 interface TAuthState {
-  user?: TUserState | null;
-  setUser: (user: TUserState) => void;
+  user?: TEmployee | null;
+  token?: string;
+  setUser: (data: { token: string; employee: TEmployee }) => void;
   setLogout: () => void;
 }
 
 export const useAuth = create<TAuthState>()(
   persist(
     (set) => ({
-      setUser: (user) => set(() => ({ user })),
+      setUser: ({ token, employee }) => set(() => ({ token, user: employee })),
       setLogout: () => set(() => ({ user: null })),
     }),
-    { name: "mjsAuthStore" }
+    { name: "mjsuseAuth" }
   )
 );

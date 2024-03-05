@@ -1,13 +1,13 @@
 import axiosApiInstance from "./axiosApiInstance";
 import { BASE_URL } from "../utils/config";
 import { apiErrorHandler } from "../utils/helper";
-import type { TEmployee } from "../types";
+import type { TEmployee, TPageInfo } from "../types";
 
-export default async function submitLogin(body: object) {
+export default async function fetchEmployees(query?: object) {
   return axiosApiInstance
-    .post(`${BASE_URL}/auth/login`, body)
+    .get<{ data: TEmployee[]; meta: TPageInfo }>(`${BASE_URL}/employees`, query)
     .then(
-      (res) => res.data?.data as { token: string; employee: TEmployee },
+      (res) => ({ data: res.data.data, meta: res.data.meta }),
       (err) => {
         throw err?.response?.data?.message || err?.message;
       }

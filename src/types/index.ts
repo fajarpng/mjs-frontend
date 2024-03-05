@@ -4,9 +4,11 @@ export interface TNav {
   type: "item" | "collapse";
   name: string;
   key: string;
+  hidden?: boolean;
   icon?: FC<SVGProps<SVGSVGElement>>;
   children?: TNav[];
 }
+
 export interface TProduct {
   id: number;
   productCode: string;
@@ -23,7 +25,27 @@ export interface TProduct {
 }
 
 export interface TPageInfo {
-  totalCount: number;
   pageIndex: number;
   pageSize: number;
+  pageCount: number;
+  totalCount: number;
 }
+
+export interface TEmployee {
+  nip: string;
+  nik: string;
+  name: string;
+  address: string;
+  email: string;
+  phone: string;
+  religion: string;
+  birthDate: string;
+  joinDate: string;
+  createdAt: string;
+  updatedAt: string;
+  isDeleted: boolean;
+  role: "superAdmin" | "admin" | "staff";
+  token: string;
+}
+
+export type TFormDataType = Record<string, FormDataEntryValue>;

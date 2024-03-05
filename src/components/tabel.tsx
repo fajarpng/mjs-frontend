@@ -1,5 +1,5 @@
-import { Table } from "flowbite-react";
-import type { FC, ReactElement } from "react";
+import { Button, Table } from "flowbite-react";
+import { useMemo, type FC, type ReactElement } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import type { TPageInfo } from "../types";
 
@@ -24,7 +24,9 @@ const TabelComponent: FC<TabelProps> = function ({
               <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
                 <Table.Head className="bg-gray-100 dark:bg-gray-700">
                   {header.map((v, i) => (
-                    <Table.HeadCell key={i}>{v}</Table.HeadCell>
+                    <td className="px-2 py-3 font-bold" key={i}>
+                      {v}
+                    </td>
                   ))}
                 </Table.Head>
                 {children}
@@ -33,44 +35,62 @@ const TabelComponent: FC<TabelProps> = function ({
           </div>
         </div>
       </div>
-      {pagination && <PaginationTabel />}
+      {pagination && <PaginationTabel meta={pagination} />}
     </div>
   );
 };
 
-export const PaginationTabel: FC = function () {
+export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
+  const showing = useMemo(() => {
+    const start = (meta.pageIndex - 1) * meta.pageSize + 1;
+    let end = meta.pageIndex * meta.pageSize;
+    end = end > meta.totalCount ? meta.totalCount : end;
+
+    return { start, end };
+  }, [meta]);
+
   return (
-    <div className="sticky right-0 bottom-0 w-full items-center border-t border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex sm:justify-between">
+    <div className="border-t border-gray-200">
       <div className="mb-4 flex items-center sm:mb-0">
-        <button className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+        <Button
+          disabled={meta.pageIndex < 2}
+          className=" bg-transparent text-black hover:bg-gray-300 disabled:hover:bg-gray-300 "
+        >
           <span className="sr-only">Previous page</span>
           <HiChevronLeft className="text-2xl" />
-        </button>
-        <button className="mr-2 inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+        </Button>
+        <Button
+          disabled={meta.pageIndex === meta.pageCount}
+          className="mr-2 bg-transparent text-black hover:bg-gray-300 disabled:hover:bg-gray-300"
+        >
           <span className="sr-only">Next page</span>
           <HiChevronRight className="text-2xl" />
-        </button>
+        </Button>
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
           Showing&nbsp;
           <span className="font-semibold text-gray-900 dark:text-white">
-            1-20
+            {showing.start}
+            {showing.end > 1 ? ` - ${showing.end}` : null}
           </span>
           &nbsp;of&nbsp;
           <span className="font-semibold text-gray-900 dark:text-white">
-            2290
+            {meta.totalCount}
           </span>
         </span>
       </div>
-      <div className="hidden space-x-3 md:flex md:items-center ">
-        <button className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+      {/* <div className="hidden space-x-3 md:flex md:items-center ">
+        <Button disabled={meta.pageIndex < 2} className="text-sm">
           <HiChevronLeft className="mr-1 text-base" />
           Previous
-        </button>
-        <button className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+        </Button>
+        <Button
+          disabled={meta.pageIndex === meta.pageCount}
+          className="text-sm"
+        >
           Next
           <HiChevronRight className="ml-1 text-base" />
-        </button>
-      </div>
+        </Button>
+      </div> */}
     </div>
   );
 };

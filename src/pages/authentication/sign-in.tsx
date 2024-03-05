@@ -1,9 +1,11 @@
-import { Button, Card, Label, TextInput } from "flowbite-react";
+import { Button, Card, Label, Spinner, TextInput } from "flowbite-react";
 import { useEffect, type FC, type FormEvent } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 import submitLogin from "../../api/auth";
 import { useAuth } from "../../hooks/auth";
+import type { TFormDataType } from "../../types";
+import Swal from "sweetalert2";
 
 const SignInPage: FC = function () {
   const navigate = useNavigate();
@@ -16,15 +18,29 @@ const SignInPage: FC = function () {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    mutateLogin.mutate(
-      { email: "", password: "" },
-      {
-        onSuccess: (data) => {
-          setUser(data);
-          navigate("/", { replace: true });
-        },
-      }
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    const responseBody: TFormDataType = {};
+    formData.forEach(
+      (value, property: string) => (responseBody[property] = value)
     );
+
+    mutateLogin.mutate(responseBody, {
+      onSuccess: (data) => {
+        if (
+          data.employee.role === "admin" ||
+          data.employee.role === "superAdmin"
+        ) {
+          navigate("/", { replace: true });
+          setUser(data);
+        } else {
+          Swal.fire({
+            title: "Access Denied!",
+            text: "You can not access this page.",
+            icon: "error",
+          });
+        }
+      },
+    });
   };
 
   return (
@@ -41,29 +57,29 @@ const SignInPage: FC = function () {
       </div>
       <Card
         horizontal
-        imgSrc="/images/authentication/login.jpg"
-        imgAlt=""
         className="w-full md:max-w-screen-sm [&>img]:hidden md:[&>img]:w-96 md:[&>img]:p-0 md:[&>*]:w-full md:[&>*]:p-16 lg:[&>img]:block"
       >
-        <h1 className="mb-3 text-2xl font-bold dark:text-white md:text-3xl">
+        {/* <h1 className="mb-3 text-2xl font-bold dark:text-white md:text-3xl">
           Sign in
-        </h1>
+        </h1> */}
         <form onSubmit={handleSubmit}>
           <div className="mb-4 flex flex-col gap-y-3">
-            <Label htmlFor="email">Your email</Label>
+            <Label htmlFor="email">NIP</Label>
             <TextInput
-              id="email"
-              name="email"
-              placeholder="name@company.com"
-              type="email"
+              required
+              id="nip"
+              name="nip"
+              placeholder="type nip here..."
+              type="text"
             />
           </div>
           <div className="mb-6 flex flex-col gap-y-3">
-            <Label htmlFor="password">Your password</Label>
+            <Label htmlFor="password">Password</Label>
             <TextInput
               id="password"
+              required
               name="password"
-              placeholder="••••••••"
+              placeholder="type password here..."
               type="password"
             />
           </div>
@@ -77,8 +93,13 @@ const SignInPage: FC = function () {
             </a>
           </div> */}
           <div className="mb-6">
-            <Button type="submit" className="w-full lg:w-auto">
-              Login to your account
+            <Button
+              type="submit"
+              className="w-full lg:w-auto"
+              disabled={mutateLogin.isLoading}
+            >
+              {mutateLogin.isLoading && <Spinner className="mr-2" />} Login to
+              your account
             </Button>
           </div>
         </form>

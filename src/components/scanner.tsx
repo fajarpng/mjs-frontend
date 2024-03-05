@@ -1,14 +1,14 @@
 import { useSymbologyScanner } from "@use-symbology-scanner/react";
 import { useRef } from "react";
 
-export const App = () => {
+export const Scanner = () => {
   const ref = useRef(null);
 
-  const handleSymbol: any<any> = (symbol, matchedSymbologies) => {
-    console.log(`Scanned ${symbol}`);
+  const handleSymbol = (symbol: string, matchedSymbologies: any) => {
+    console.log("Scanner" + symbol);
   };
 
-  useSymbologyScanner(handleSymbologies, { target: ref });
+  useSymbologyScanner(handleSymbol, { target: ref });
 
-  return <div ref={ref}></div>;
+  return <div ref={ref}> </div>;
 };

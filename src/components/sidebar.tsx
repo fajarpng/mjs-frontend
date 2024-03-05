@@ -14,7 +14,8 @@ const SidebarComponent: FC = function () {
   }, [setCurrentPage]);
 
   const renderMenuContent = (v: TNav) => {
-    if (v.type === "collapse") {
+    if (v.hidden) return null;
+    else if (v.type === "collapse") {
       const isActive = (v.children ?? []).find((v) => v.key === currentPage);
       return (
         <Sidebar.Collapse
@@ -45,7 +46,7 @@ const SidebarComponent: FC = function () {
   };
 
   return (
-    <Sidebar aria-label="Sidebar with multi-level dropdown example">
+    <Sidebar>
       <div className="flex h-full flex-col justify-between py-2">
         <Sidebar.Items>
           <Sidebar.ItemGroup>{renderMenu()}</Sidebar.ItemGroup>
