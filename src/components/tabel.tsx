@@ -1,7 +1,8 @@
-import { Button, Table } from "flowbite-react";
+import { Table } from "flowbite-react";
 import { useMemo, type FC, type ReactElement } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import type { TPageInfo } from "../types";
+import Button from "./button";
 
 interface TabelProps {
   header: string[];
@@ -21,7 +22,10 @@ const TabelComponent: FC<TabelProps> = function ({
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
-              <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+              <Table
+                striped
+                className="min-w-full divide-y divide-gray-200 dark:divide-gray-600"
+              >
                 <Table.Head className="bg-gray-100 dark:bg-gray-700">
                   {header.map((v, i) => (
                     <td
@@ -55,18 +59,18 @@ export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
   }, [meta]);
 
   return (
-    <div className="border-t border-gray-200">
+    <div className="border-t border-gray-200 py-2 dark:border-gray-700">
       <div className="mb-4 flex items-center sm:mb-0">
         <Button
           disabled={meta.pageIndex < 2}
-          className=" bg-transparent text-black hover:bg-gray-300 disabled:hover:bg-gray-300 "
+          className=" bg-transparent text-black hover:bg-gray-100 disabled:text-gray-300 dark:text-white dark:hover:bg-gray-700"
         >
           <span className="sr-only">Previous page</span>
           <HiChevronLeft className="text-2xl" />
         </Button>
         <Button
           disabled={meta.pageIndex === meta.pageCount}
-          className="mr-2 bg-transparent text-black hover:bg-gray-300 disabled:hover:bg-gray-300"
+          className="mr-2 bg-transparent text-black hover:bg-gray-100 disabled:text-gray-300 dark:text-white dark:hover:bg-gray-700"
         >
           <span className="sr-only">Next page</span>
           <HiChevronRight className="text-2xl" />

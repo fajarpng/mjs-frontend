@@ -22,12 +22,12 @@ export const formatNmber = (price: string) => {
 
 export const renderDateTime = (date: string) => {
   if (!date) return "Invalid Date";
-  return dayjs(date).format("YYYY-MM-DD HH:mm");
+  return dayjs(date).format("DD-MM-YYYY HH:mm");
 };
 
 export const renderDate = (date: string) => {
   if (!date) return "Invalid Date";
-  return dayjs(date).format("dddd, YYYY-MM-DD");
+  return dayjs(date).format("dddd, DD-MM-YYYY");
 };
 
 export function getQuery() {

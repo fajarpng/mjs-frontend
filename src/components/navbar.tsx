@@ -1,4 +1,4 @@
-import { Navbar } from "flowbite-react";
+import { DarkThemeToggle, Navbar } from "flowbite-react";
 import type { FC } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../hooks/auth";
@@ -19,11 +19,12 @@ const ExampleNavbar: FC = function () {
             </Navbar.Brand>
           </div>
           <div className="flex items-center gap-4">
+            <DarkThemeToggle /> |
             <div className="flex items-center gap-2">
-              <div className=" rounded-full bg-gray-700 text-white">
+              <div className=" rounded-full bg-gray-700 text-white dark:bg-gray-700 dark:text-gray-100">
                 <AiOutlineUser size={30} />
               </div>
-              <div className="text-lg">{user?.name}</div>
+              <div className="text-lg dark:text-white">{user?.name}</div>
             </div>
             |
             <Button

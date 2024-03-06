@@ -46,7 +46,10 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
 
     if (isLoading) {
       newIcon = (
-        <AiOutlineLoading3Quarters className="mr-2 animate-spin" size={20} />
+        <AiOutlineLoading3Quarters
+          className="mr-2 animate-spin dark:text-white"
+          size={20}
+        />
       );
     }
 
