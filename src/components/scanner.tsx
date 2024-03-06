@@ -5,7 +5,7 @@ export const Scanner = () => {
   const ref = useRef(null);
 
   const handleSymbol = (symbol: string, matchedSymbologies: any) => {
-    console.log("Scanner" + symbol);
+    console.log("Scanner" + symbol + matchedSymbologies);
   };
 
   useSymbologyScanner(handleSymbol, { target: ref });
