@@ -47,5 +47,3 @@ export interface TEmployee {
   role: "superAdmin" | "admin" | "staff";
   token: string;
 }
-
-export type TFormDataType = Record<string, FormDataEntryValue>;

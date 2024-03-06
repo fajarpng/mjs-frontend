@@ -5,6 +5,7 @@ import type { TEmployee } from "../types";
 interface TAuthState {
   user?: TEmployee | null;
   token?: string;
+  // eslint-disable-next-line no-unused-vars
   setUser: (data: { token: string; employee: TEmployee }) => void;
   setLogout: () => void;
 }

@@ -24,7 +24,12 @@ const TabelComponent: FC<TabelProps> = function ({
               <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
                 <Table.Head className="bg-gray-100 dark:bg-gray-700">
                   {header.map((v, i) => (
-                    <td className="px-2 py-3 font-bold" key={i}>
+                    <td
+                      className={`px-2 py-3 font-bold ${
+                        v === "action" && "text-center"
+                      }`}
+                      key={i}
+                    >
                       {v}
                     </td>
                   ))}

@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import qs from "qs";
 import Swal from "sweetalert2";
 
 export const apiErrorHandler = (message?: string) => {
@@ -21,5 +22,16 @@ export const formatNmber = (price: string) => {
 
 export const renderDateTime = (date: string) => {
   if (!date) return "Invalid Date";
-  return dayjs(date).format("Y-m-d H:i:s");
+  return dayjs(date).format("YYYY-MM-DD HH:mm");
 };
+
+export const renderDate = (date: string) => {
+  if (!date) return "Invalid Date";
+  return dayjs(date).format("dddd, YYYY-MM-DD");
+};
+
+export function getQuery() {
+  const locationSearch = window.location.search;
+  const query = qs.parse(locationSearch, { ignoreQueryPrefix: true });
+  return query;
+}

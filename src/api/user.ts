@@ -3,9 +3,11 @@ import { BASE_URL } from "../utils/config";
 import { apiErrorHandler } from "../utils/helper";
 import type { TEmployee, TPageInfo } from "../types";
 
-export default async function fetchEmployees(query?: object) {
+export default async function fetchEmployees(params?: object) {
   return axiosApiInstance
-    .get<{ data: TEmployee[]; meta: TPageInfo }>(`${BASE_URL}/employees`, query)
+    .get<{ data: TEmployee[]; meta: TPageInfo }>(`${BASE_URL}/employees`, {
+      params,
+    })
     .then(
       (res) => ({ data: res.data.data, meta: res.data.meta }),
       (err) => {

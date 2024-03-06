@@ -1,19 +1,19 @@
-import { Button, Card, Dropdown, Table, TextInput } from "flowbite-react";
-import type { FC } from "react";
-import { FaList } from "react-icons/fa";
-import TabelComponent from "../../components/tabel";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { useQuery } from "react-query";
-import fetchEmployees from "../../api/user";
+import { Card, Table, TextInput } from "flowbite-react";
+import { type FC } from "react";
+import { FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
+import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
+import TabelComponent from "../../components/tabel";
+import { useEmployee } from "../../hooks/employee";
+import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
+import { getQuery, renderDate, renderDateTime } from "../../utils/helper";
 import { ModalAddEmployee } from "./modal";
 
 const header = ["nip", "name", "email", "phone", "birth", "join", "action"];
 
 const EmployeePage: FC = function () {
-  const { data, refetch, error, status } = useQuery(["employee", {}], () =>
-    fetchEmployees({})
-  );
+  const query: any = getQuery();
+  const { data, refetch, error, status } = useEmployee(query);
 
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -29,12 +29,22 @@ const EmployeePage: FC = function () {
             <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
               <form className="lg:pr-3">
                 <div className="relative mt-1 lg:w-64 xl:w-96">
-                  <TextInput name="users-search" placeholder="Search product" />
+                  <TextInput
+                    name="search"
+                    defaultValue={query.search}
+                    onSubmit={(e) => e.preventDefault()}
+                    placeholder="search by nip/nik/email/name..."
+                  />
                 </div>
               </form>
             </div>
             <ModalAddEmployee>
-              <Button>Add</Button>
+              <Button
+                className=" bg-blue-500 text-white hover:bg-blue-600"
+                leftIcon={<FaPlus />}
+              >
+                Add
+              </Button>
             </ModalAddEmployee>
           </div>
         </div>
@@ -67,12 +77,12 @@ const EmployeePage: FC = function () {
                     {v.phone}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.birthDate}
+                    {renderDate(v.birthDate)}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.joinDate}
+                    {renderDateTime(v.joinDate)}
                   </td>
-                  <td className="w-4 p-2">
+                  <td className="w-[50px]">
                     <ActionMenu />
                   </td>
                 </Table.Row>
@@ -87,11 +97,17 @@ const EmployeePage: FC = function () {
 
 const ActionMenu = () => {
   return (
-    <Dropdown label={<FaList />} arrowIcon={false}>
-      <Dropdown.Item>See Detail</Dropdown.Item>
-      <Dropdown.Item>Edit</Dropdown.Item>
-      <Dropdown.Item>Delete</Dropdown.Item>
-    </Dropdown>
+    <div className=" flex justify-end gap-1 p-2">
+      <Button className=" border-2 border-blue-500 text-blue-500 hover:bg-primary-500 hover:text-white">
+        <FaEye />
+      </Button>
+      <Button className=" border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white">
+        <FaPen />
+      </Button>
+      <Button className=" border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
+        <FaTrash />
+      </Button>
+    </div>
   );
 };
 

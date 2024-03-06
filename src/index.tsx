@@ -21,7 +21,7 @@ if (!container) {
 
 const root = createRoot(container);
 
-const staleTime = 1000 * 60 * 60 * 0.5; // half hours
+const staleTime = 1000 * 60 * 60 * 5; // 5 hours
 
 const queryClient = new QueryClient({
   defaultOptions: {

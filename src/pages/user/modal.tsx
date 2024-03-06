@@ -1,17 +1,25 @@
-import { Button, Label, Modal, TextInput } from "flowbite-react";
-import type { FormEvent, ReactElement } from "react";
+import { Label, Modal, TextInput } from "flowbite-react";
+import type { ReactElement } from "react";
 import { cloneElement, useState } from "react";
-import type { TFormDataType } from "../../types";
+import { useForm } from "react-hook-form";
+import Button from "../../components/button";
 
 export const ModalAddEmployee = ({ children }: { children?: ReactElement }) => {
-  const [open, setopen] = useState<boolean>(false);
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget as HTMLFormElement);
-    const responseBody: TFormDataType = {};
-    formData.forEach(
-      (value, property: string) => (responseBody[property] = value)
-    );
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    reset();
+    setOpen(false);
+  };
+  const onSubmit = (data: object) => {
+    console.log(data);
 
     // mutateLogin.mutate(responseBody, {
     //   onSuccess: (data) => {
@@ -34,39 +42,65 @@ export const ModalAddEmployee = ({ children }: { children?: ReactElement }) => {
 
   return (
     <div>
-      {children && cloneElement(children, { onClick: () => setopen(true) })}
-      <Modal show={open} onClose={() => setopen(false)}>
+      {children && cloneElement(children, { onClick: handleOpen })}
+      <Modal show={open} onClose={handleClose}>
         <Modal.Header>Add Employee</Modal.Header>
-        <Modal.Body>
-          <form onSubmit={handleSubmit}>
-            <Label htmlFor="email">NIP</Label>
-            <TextInput
-              required
-              id="nip"
-              name="nip"
-              placeholder="type nip here..."
-              type="text"
-              className="my-4"
-            />
-            <Label htmlFor="password">Password</Label>
-            <TextInput
-              id="password"
-              required
-              name="password"
-              placeholder="type password here..."
-              type="password"
-              className="my-4"
-            />
-            <Label htmlFor="birth">Password</Label>
-            {/* <Datepicker /> */}
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={() => setopen(false)}>Save</Button>
-          <Button color="gray" onClick={() => setopen(false)}>
-            Cancel
-          </Button>
-        </Modal.Footer>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Modal.Body>
+            <div className="mb-2">
+              <Label htmlFor="email">NIP</Label>
+              <TextInput
+                {...register("nip", { required: true })}
+                placeholder="type nip here..."
+                className="my-2"
+              />
+              {errors["nip"] && (
+                <i className=" text-sm text-red-500">please input nip!</i>
+              )}
+            </div>
+
+            <div className="mb-2">
+              <Label htmlFor="password">Password</Label>
+              <TextInput
+                {...register("password", { required: true })}
+                placeholder="type password here..."
+                type="password"
+                className="my-2"
+              />
+              {errors["password"] && (
+                <i className=" text-sm text-red-500">please input nip!</i>
+              )}
+            </div>
+
+            <div className="mb-2">
+              <Label htmlFor="date">Birth Date</Label>
+              <TextInput
+                {...register("birth", { required: true })}
+                type="date"
+                className="my-2 max-w-[250px]"
+              />
+              {errors["birth"] && (
+                <i className=" text-sm text-red-500">
+                  please input birth date!
+                </i>
+              )}
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              type="submit"
+              className=" bg-green-400 text-white hover:bg-green-500"
+            >
+              Save
+            </Button>
+            <Button
+              onClick={handleClose}
+              className=" bg-red-400 text-white hover:bg-red-500"
+            >
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </form>
       </Modal>
     </div>
   );

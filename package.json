@@ -25,23 +25,24 @@
     "yarn": ">= 1"
   },
   "dependencies": {
-    "@use-symbology-scanner/react": "^1.0.2",
-    "add": "^2.0.6",
+    "@use-symbology-scanner/react": "^1.0.3",
     "apexcharts": "^3.36.3",
     "axios": "^1.6.7",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.10",
     "flowbite": "^1.5.5",
     "flowbite-react": "^0.3.7",
+    "qs": "^6.11.2",
     "react-apexcharts": "^1.4.0",
+    "react-hook-form": "^7.51.0",
     "react-icons": "^4.7.1",
     "react-query": "^3.39.3",
-    "sweetalert2": "^11.10.5",
-    "yarn": "^1.22.21",
-    "zod": "^3.22.4",
-    "zustand": "^4.5.0"
+    "sweetalert2": "^11.10.6",
+    "tailwind-variants": "^0.2.0",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/qs": "^6.9.12",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@types/sortablejs": "^1.15.0",
@@ -77,8 +78,6 @@
   "eslintConfig": {
     "extends": [
       "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended",
       "plugin:@typescript-eslint/strict",
       "plugin:jsx-a11y/recommended",
       "plugin:prettier/recommended",

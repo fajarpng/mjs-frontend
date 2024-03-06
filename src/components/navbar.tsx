@@ -1,6 +1,9 @@
-import { Button, Navbar } from "flowbite-react";
+import { Navbar } from "flowbite-react";
 import type { FC } from "react";
+import { FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../hooks/auth";
+import Button from "./button";
+import { AiOutlineUser } from "react-icons/ai";
 
 const ExampleNavbar: FC = function () {
   const { setLogout, user } = useAuth();
@@ -16,8 +19,20 @@ const ExampleNavbar: FC = function () {
             </Navbar.Brand>
           </div>
           <div className="flex items-center gap-4">
-            <div className="text-lg">{user?.name}</div>
-            <Button onClick={setLogout}>Sign Out</Button>
+            <div className="flex items-center gap-2">
+              <div className=" rounded-full bg-gray-700 text-white">
+                <AiOutlineUser size={30} />
+              </div>
+              <div className="text-lg">{user?.name}</div>
+            </div>
+            |
+            <Button
+              className=" bg-blue-500 text-white hover:bg-blue-600"
+              leftIcon={<FaSignOutAlt />}
+              onClick={setLogout}
+            >
+              Sign Out
+            </Button>
           </div>
         </div>
       </div>
