@@ -1,12 +1,13 @@
-import { Card, Label, Spinner, TextInput } from "flowbite-react";
+import { Card, Label, TextInput } from "flowbite-react";
 import { useEffect, type FC } from "react";
 import { useForm } from "react-hook-form";
+import { FaSignInAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import submitLogin from "../../api/auth";
-import { useAuth } from "../../hooks/auth";
 import Button from "../../components/button";
+import { useAuth } from "../../hooks/auth";
 
 const SignInPage: FC = function () {
   const {
@@ -90,14 +91,14 @@ const SignInPage: FC = function () {
               Lost Password?
             </a>
           </div> */}
-          <div className="mb-6">
+          <div className="mb-6 mt-4">
             <Button
               type="submit"
               className="w-full bg-primary-500 text-white hover:bg-primary-600 lg:w-auto"
-              disabled={mutateLogin.isLoading}
+              leftIcon={<FaSignInAlt />}
+              isLoading={mutateLogin.isLoading}
             >
-              {mutateLogin.isLoading && <Spinner className="mr-2" />} Login to
-              your account
+              Login to your account
             </Button>
           </div>
         </form>
