@@ -3,7 +3,8 @@ import { HiChartPie } from "react-icons/hi";
 import type { TNav } from "../types";
 import { useAuth } from "../hooks/auth";
 
-const { user } = useAuth.getState();
+// eslint-disable-next-line no-empty-pattern
+const {} = useAuth.getState();
 
 export const nav: TNav[] = [
   {
@@ -13,29 +14,9 @@ export const nav: TNav[] = [
     name: "Dashboard",
   },
   {
-    type: "collapse",
-    icon: FaUserAlt,
-    key: "employee",
-    hidden: user?.role !== "superAdmin",
-    name: "Employee",
-    children: [
-      {
-        type: "item",
-        key: "/admin",
-        name: "List Admin",
-      },
-      {
-        type: "item",
-        key: "/employee",
-        name: "List Employee",
-      },
-    ],
-  },
-  {
     type: "item",
     icon: FaUserAlt,
     key: "/employee",
-    hidden: user?.role === "superAdmin",
     name: "Employee",
   },
   {
@@ -48,6 +29,11 @@ export const nav: TNav[] = [
         type: "item",
         key: "/master-product",
         name: "Master Product",
+      },
+      {
+        type: "item",
+        key: "/category-product",
+        name: "Category Product",
       },
     ],
   },

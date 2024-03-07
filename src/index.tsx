@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { Flowbite } from "flowbite-react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import theme from "./flowbite-theme";
@@ -9,9 +10,10 @@ import "./index.css";
 import DashboardPage from "./pages";
 import PageNotFound from "./pages/PageNotFound";
 import SignInPage from "./pages/authentication/sign-in";
-import MasterBarangPage from "./pages/products/master";
-import { QueryClient, QueryClientProvider } from "react-query";
-import EmployeePage from "./pages/user/employee";
+import CategoryPage from "./pages/category";
+import EmployeePage from "./pages/employee";
+import MasterProductPage from "./pages/products/master";
+import ChangePasswordPage from "./pages/changePassword";
 
 const container = document.getElementById("root");
 
@@ -41,9 +43,14 @@ root.render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<DashboardPage />} index />
-            <Route path="/master-product" element={<MasterBarangPage />} />
+            {/* product routes */}
+            <Route path="/master-product" element={<MasterProductPage />} />
+            <Route path="/category-product" element={<CategoryPage />} />
+            {/* user routes */}
             <Route path="/employee" element={<EmployeePage />} />
+            {/* other routes */}
             <Route path="/sign-in" element={<SignInPage />} />
+            <Route path="/change-password" element={<ChangePasswordPage />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>

@@ -5,7 +5,7 @@ import { FaSignInAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import submitLogin from "../../api/auth";
+import { submitLogin } from "../../api/auth";
 import Button from "../../components/button";
 import { useAuth } from "../../hooks/auth";
 
@@ -59,7 +59,7 @@ const SignInPage: FC = function () {
         </h1> */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-2">
-            <Label htmlFor="email">NIP</Label>
+            <Label htmlFor="email" value="NIP" />
             <TextInput
               {...register("nip", { required: true })}
               placeholder="type nip here..."
@@ -71,7 +71,7 @@ const SignInPage: FC = function () {
           </div>
 
           <div className="mb-6">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" value="Password" />
             <TextInput
               {...register("password", { required: true })}
               placeholder="type password here..."
@@ -87,14 +87,12 @@ const SignInPage: FC = function () {
               <Checkbox id="rememberMe" name="rememberMe" />
               <Label htmlFor="rememberMe">Remember me</Label>
             </div>
-            <a href="#" className="w-1/2 text-right text-sm text-primary-600 dark:text-primary-300" >
-              Lost Password?
-            </a>
+            Lost Password?
           </div> */}
           <div className="mb-6 mt-4">
             <Button
               type="submit"
-              className="w-full bg-primary-500 text-white hover:bg-primary-600 lg:w-auto"
+              className="w-full bg-primary-500 p-3 text-white hover:bg-primary-600 lg:w-auto"
               leftIcon={<FaSignInAlt />}
               isLoading={mutateLogin.isLoading}
             >

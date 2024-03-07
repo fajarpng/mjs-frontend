@@ -1,7 +1,7 @@
-import { Button } from "flowbite-react";
 import type { FC, ReactElement } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { MdError, MdSearchOff } from "react-icons/md";
+import { MdError, MdRefresh, MdSearchOff } from "react-icons/md";
+import Button from "./button";
 
 interface TInfoScreen {
   status: "error" | "loading" | "success" | "idle";
@@ -34,13 +34,17 @@ export const InfoScreen: FC<TInfoScreen> = ({
   // render jika ada error
   if (status === "error") {
     return (
-      <div className=" flex min-h-[300px] w-full flex-col items-center justify-center text-center">
+      <div className=" flex min-h-[300px] w-full flex-col items-center justify-center text-center dark:text-white">
         <MdError size={100} className=" text-gray-300" />
         <div className=" mt-6 text-xl font-bold">Opps,</div>
         <div className=" text-lg">
           {typeof error === "string" ? error : "Something went wrong"}.
         </div>
-        <Button onClick={reload} className=" mt-4">
+        <Button
+          onClick={reload}
+          leftIcon={<MdRefresh size={25} />}
+          className=" mt-4 bg-blue-500 text-white hover:bg-blue-600"
+        >
           Reload
         </Button>
       </div>
@@ -49,7 +53,7 @@ export const InfoScreen: FC<TInfoScreen> = ({
   // render jika data kosong
   else if (!dataLength) {
     return (
-      <div className=" flex min-h-[300px] w-full flex-col items-center justify-center text-center">
+      <div className=" flex min-h-[300px] w-full flex-col items-center justify-center text-center dark:text-white">
         <MdSearchOff size={100} className=" text-gray-300" />
         <div className=" mt-6 text-xl font-bold">No Data Found !</div>
         <div className=" text-lg">There is no data to show you right now.</div>

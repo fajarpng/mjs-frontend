@@ -1,10 +1,13 @@
 import { Sidebar } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
+import { FaLock, FaSignOutAlt } from "react-icons/fa";
+import { useAuth } from "../hooks/auth";
 import type { TNav } from "../types";
 import { nav } from "./nav";
 
 const SidebarComponent: FC = function () {
+  const { setLogout } = useAuth();
   const [currentPage, setCurrentPage] = useState("");
 
   useEffect(() => {
@@ -50,6 +53,23 @@ const SidebarComponent: FC = function () {
       <div className="flex h-full flex-col justify-between py-2">
         <Sidebar.Items>
           <Sidebar.ItemGroup>{renderMenu()}</Sidebar.ItemGroup>
+          {/* other button */}
+          <Sidebar.ItemGroup>
+            <Sidebar.Item
+              href="/change-password"
+              icon={FaLock}
+              className={
+                "/change-password" === currentPage
+                  ? "bg-gray-100 dark:bg-gray-700"
+                  : ""
+              }
+            >
+              Change Password
+            </Sidebar.Item>
+            <Sidebar.Item onClick={setLogout} icon={FaSignOutAlt}>
+              Sign Out
+            </Sidebar.Item>
+          </Sidebar.ItemGroup>
         </Sidebar.Items>
       </div>
     </Sidebar>

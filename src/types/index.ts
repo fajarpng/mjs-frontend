@@ -9,6 +9,13 @@ export interface TNav {
   children?: TNav[];
 }
 
+export interface TPageInfo {
+  pageIndex: number;
+  pageSize: number;
+  pageCount: number;
+  totalCount: number;
+}
+// interface Product
 export interface TProduct {
   id: number;
   productCode: string;
@@ -17,21 +24,19 @@ export interface TProduct {
   description: string;
   qty: number;
   qtyMin: number;
-  type: 1 | 2;
-  createdAt: string | null;
-  updatedAt: string | null;
+  type: string;
+  imageUrl: string;
+  createdAt: string;
+  createdBy: string;
+  updatedAt: string;
+  updatedBy: string;
   isDeleted: boolean;
-  deletedAt: string | null;
+  deletedAt: string;
+  deletedBy: string;
 }
-
-export interface TPageInfo {
-  pageIndex: number;
-  pageSize: number;
-  pageCount: number;
-  totalCount: number;
-}
-
+// interface employee
 export interface TEmployee {
+  id: number;
   nip: string;
   nik: string;
   name: string;
@@ -46,4 +51,17 @@ export interface TEmployee {
   isDeleted: boolean;
   role: "superAdmin" | "admin" | "staff";
   token: string;
+}
+// interface category
+export interface TCategory {
+  id: number;
+  categoryCode: string;
+  categoryName: string;
+  updatedBy: string;
+  createdBy: string;
+  deletedBy: string;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
 }

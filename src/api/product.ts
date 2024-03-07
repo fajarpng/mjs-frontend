@@ -1,11 +1,11 @@
-import axiosApiInstance from "./axiosApiInstance";
+import type { TPageInfo, TProduct } from "../types";
 import { BASE_URL } from "../utils/config";
 import { apiErrorHandler } from "../utils/helper";
-import type { TEmployee, TPageInfo } from "../types";
+import axiosApiInstance from "./axiosApiInstance";
 
-export default async function fetchEmployees(params?: object) {
+export async function fetchProduct(params?: object) {
   return axiosApiInstance
-    .get<{ data: TEmployee[]; meta: TPageInfo }>(`${BASE_URL}/employees`, {
+    .get<{ data: TProduct[]; meta: TPageInfo }>(`${BASE_URL}/products`, {
       params,
     })
     .then(

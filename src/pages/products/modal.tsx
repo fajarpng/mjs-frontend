@@ -4,7 +4,7 @@ import { cloneElement, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../components/button";
 
-export const ModalAddEmployee = ({ children }: { children?: ReactElement }) => {
+export const ModalAddProduct = ({ children }: { children?: ReactElement }) => {
   const {
     register,
     reset,
@@ -48,7 +48,7 @@ export const ModalAddEmployee = ({ children }: { children?: ReactElement }) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body>
             <div className="mb-2">
-              <Label htmlFor="email">NIP</Label>
+              <Label htmlFor="email" value="NIP" />
               <TextInput
                 {...register("nip", { required: true })}
                 placeholder="type nip here..."
@@ -60,7 +60,7 @@ export const ModalAddEmployee = ({ children }: { children?: ReactElement }) => {
             </div>
 
             <div className="mb-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" value="Password" />
               <TextInput
                 {...register("password", { required: true })}
                 placeholder="type password here..."
@@ -73,7 +73,7 @@ export const ModalAddEmployee = ({ children }: { children?: ReactElement }) => {
             </div>
 
             <div className="mb-2">
-              <Label htmlFor="date">Birth Date</Label>
+              <Label htmlFor="date" value="Birth Date" />
               <TextInput
                 {...register("birth", { required: true })}
                 type="date"
@@ -89,13 +89,13 @@ export const ModalAddEmployee = ({ children }: { children?: ReactElement }) => {
           <Modal.Footer>
             <Button
               type="submit"
-              className=" bg-green-400 text-white hover:bg-green-500"
+              className=" bg-blue-500 text-white hover:bg-blue-600"
             >
               Save
             </Button>
             <Button
               onClick={handleClose}
-              className=" bg-red-400 text-white hover:bg-red-500"
+              className=" bg-red-500 text-white hover:bg-red-600"
             >
               Cancel
             </Button>
