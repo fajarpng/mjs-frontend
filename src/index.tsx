@@ -7,13 +7,8 @@ import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import theme from "./flowbite-theme";
 import "./index.css";
-import DashboardPage from "./pages";
-import PageNotFound from "./pages/PageNotFound";
+import MainPage from "./layouts/main";
 import SignInPage from "./pages/authentication/sign-in";
-import CategoryPage from "./pages/category";
-import EmployeePage from "./pages/employee";
-import MasterProductPage from "./pages/products/master";
-import ChangePasswordPage from "./pages/changePassword";
 
 const container = document.getElementById("root");
 
@@ -42,16 +37,8 @@ root.render(
       <Flowbite theme={{ theme }}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<DashboardPage />} index />
-            {/* product routes */}
-            <Route path="/master-product" element={<MasterProductPage />} />
-            <Route path="/category-product" element={<CategoryPage />} />
-            {/* user routes */}
-            <Route path="/employee" element={<EmployeePage />} />
-            {/* other routes */}
             <Route path="/sign-in" element={<SignInPage />} />
-            <Route path="/change-password" element={<ChangePasswordPage />} />
-            <Route path="*" element={<PageNotFound />} />
+            <Route path="/*" element={<MainPage />} />
           </Routes>
         </BrowserRouter>
       </Flowbite>

@@ -5,7 +5,6 @@ import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useProduct } from "../../hooks/product";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { getQuery, renderDateTime } from "../../utils/helper";
 import { ModalAddProduct } from "./modal";
 
@@ -16,7 +15,7 @@ const MasterProductPage: FC = function () {
   const { data, refetch, error, status } = useProduct(query);
 
   return (
-    <NavbarSidebarLayout isFooter={false}>
+    <div>
       <Card className="m-1">
         {/* header */}
         <div className="mb-1 w-full">
@@ -90,7 +89,7 @@ const MasterProductPage: FC = function () {
           </TabelComponent>
         </InfoScreen>
       </Card>
-    </NavbarSidebarLayout>
+    </div>
   );
 };
 

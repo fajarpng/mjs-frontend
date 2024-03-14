@@ -1,13 +1,12 @@
 import { Card, Label, TextInput } from "flowbite-react";
 import { type FC } from "react";
 import { useForm } from "react-hook-form";
+import { FaSave } from "react-icons/fa";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { changePassword } from "../../api/auth";
 import Button from "../../components/button";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { FaSave } from "react-icons/fa";
 
 const ChangePasswordPage: FC = function () {
   const {
@@ -32,7 +31,7 @@ const ChangePasswordPage: FC = function () {
   };
 
   return (
-    <NavbarSidebarLayout isFooter={false}>
+    <div>
       <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center">
         <Card
           horizontal
@@ -82,7 +81,7 @@ const ChangePasswordPage: FC = function () {
           </form>
         </Card>
       </div>
-    </NavbarSidebarLayout>
+    </div>
   );
 };
 

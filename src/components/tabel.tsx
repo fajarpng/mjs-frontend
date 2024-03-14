@@ -1,4 +1,4 @@
-import { Table } from "flowbite-react";
+import { Select, Table } from "flowbite-react";
 import { useMemo, type FC, type ReactElement } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import type { TPageInfo } from "../types";
@@ -59,7 +59,7 @@ export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
   }, [meta]);
 
   return (
-    <div className="border-t border-gray-200 py-2 dark:border-gray-700">
+    <div className="flex justify-between border-t border-gray-200 pt-4 dark:border-gray-700">
       <div className="mb-4 flex items-center sm:mb-0">
         <Button
           disabled={meta.pageIndex < 2}
@@ -85,21 +85,21 @@ export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
           <span className="font-semibold text-gray-900 dark:text-white">
             {meta.totalCount}
           </span>
+          &nbsp;Entries
         </span>
       </div>
-      {/* <div className="hidden space-x-3 md:flex md:items-center ">
-        <Button disabled={meta.pageIndex < 2} className="text-sm">
-          <HiChevronLeft className="mr-1 text-base" />
-          Previous
-        </Button>
-        <Button
-          disabled={meta.pageIndex === meta.pageCount}
-          className="text-sm"
-        >
-          Next
-          <HiChevronRight className="ml-1 text-base" />
-        </Button>
-      </div> */}
+      <span className="flex items-center gap-4">
+        <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+          Entries per page
+        </span>
+        <Select defaultValue={meta.pageSize}>
+          <option>10</option>
+          <option>50</option>
+          <option>100</option>
+          <option>500</option>
+          <option>1000</option>
+        </Select>
+      </span>
     </div>
   );
 };

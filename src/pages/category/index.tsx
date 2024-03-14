@@ -5,7 +5,6 @@ import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useCategory } from "../../hooks/category";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import ActionMenu from "./menus";
 import { ModalAddCategory } from "./modal";
 
@@ -15,7 +14,7 @@ const CategoryPage: FC = function () {
   const { data, refetch, error, status } = useCategory();
 
   return (
-    <NavbarSidebarLayout isFooter={false}>
+    <div>
       <Card className="m-1">
         {/* header */}
         <div className="flex justify-between">
@@ -50,12 +49,12 @@ const CategoryPage: FC = function () {
                   className="hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={i}
                 >
-                  <td className="p-2">{v.id}</td>
-                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.categoryCode}
-                  </td>
+                  <td className="w-4 p-2">{v.id}</td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.categoryName}
+                  </td>
+                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
+                    {v.categoryCode}
                   </td>
                   <td className="w-[50px]">
                     <ActionMenu data={v} />
@@ -66,7 +65,7 @@ const CategoryPage: FC = function () {
           </TabelComponent>
         </InfoScreen>
       </Card>
-    </NavbarSidebarLayout>
+    </div>
   );
 };
 

@@ -5,7 +5,6 @@ import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useEmployee } from "../../hooks/employee";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { getQuery, renderDate, renderDateTime } from "../../utils/helper";
 import ActionMenu from "./menus";
 import { ModalAddEmployee } from "./modal";
@@ -26,7 +25,7 @@ const EmployeePage: FC = function () {
   const { data, refetch, error, status } = useEmployee(query);
 
   return (
-    <NavbarSidebarLayout isFooter={false}>
+    <div>
       <Card className="m-1">
         {/* header */}
         <div className="mb-1 w-full">
@@ -102,7 +101,7 @@ const EmployeePage: FC = function () {
           </TabelComponent>
         </InfoScreen>
       </Card>
-    </NavbarSidebarLayout>
+    </div>
   );
 };
 
