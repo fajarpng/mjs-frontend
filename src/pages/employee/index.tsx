@@ -1,11 +1,12 @@
-import { Card, Table, TextInput } from "flowbite-react";
+import { Card, Table } from "flowbite-react";
 import { type FC } from "react";
 import { FaPlus } from "react-icons/fa";
 import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useEmployee } from "../../hooks/employee";
-import { getQuery, renderDate, renderDateTime } from "../../utils/helper";
+import { getQuery, renderDate } from "../../utils/helper";
+import EmployeePageFilter from "./filter";
 import ActionMenu from "./menus";
 import { ModalAddEmployee } from "./modal";
 
@@ -33,19 +34,10 @@ const EmployeePage: FC = function () {
           <h1 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
             Employee
           </h1>
-          {/* filter */}
           <div className="flex justify-between">
-            <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
-              <form className="lg:pr-3">
-                <div className="relative mt-1 lg:w-64 xl:w-96">
-                  <TextInput
-                    name="search"
-                    defaultValue={query.search}
-                    onSubmit={(e) => e.preventDefault()}
-                    placeholder="search by nip/nik/email/name..."
-                  />
-                </div>
-              </form>
+            {/* filter */}
+            <div className="mb-3 hidden w-full items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
+              <EmployeePageFilter />
             </div>
             <ModalAddEmployee refetch={refetch}>
               <Button
@@ -90,7 +82,7 @@ const EmployeePage: FC = function () {
                     {renderDate(v.birthDate)}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {renderDateTime(v.joinDate)}
+                    {renderDate(v.joinDate)}
                   </td>
                   <td className="w-[50px]">
                     <ActionMenu data={v} refetch={refetch} />

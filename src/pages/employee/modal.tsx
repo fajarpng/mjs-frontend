@@ -1,18 +1,20 @@
+import dayjs from "dayjs";
 import { Label, Modal, Select, TextInput, Textarea } from "flowbite-react";
 import type { ReactElement } from "react";
-import { cloneElement, useState } from "react";
+import { cloneElement, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+import Swal from "sweetalert2";
 import {
   addEmployee,
   deleteEmployee,
   updateEmployee,
 } from "../../api/employee";
 import Button from "../../components/button";
-import type { TEmployee } from "../../types";
-import dayjs from "dayjs";
 import { useAuth } from "../../hooks/auth";
-import Swal from "sweetalert2";
+import type { TEmployee } from "../../types";
+import { CardDetailEmployee } from "./cardDetail";
+import { useDetailEmployee } from "../../hooks/employee";
 
 interface TModalEmployee {
   children?: ReactElement;
@@ -64,6 +66,7 @@ export const ModalAddEmployee = ({ children, refetch }: TModalEmployee) => {
               <TextInput
                 {...register("nip", { required: true })}
                 placeholder="type nip here..."
+                type="number"
                 className="my-2"
               />
               {errors["nip"] && (
@@ -76,6 +79,7 @@ export const ModalAddEmployee = ({ children, refetch }: TModalEmployee) => {
               <TextInput
                 {...register("nik", { required: true })}
                 placeholder="type nik here..."
+                type="number"
                 className="my-2"
               />
               {errors["nik"] && (
@@ -93,6 +97,34 @@ export const ModalAddEmployee = ({ children, refetch }: TModalEmployee) => {
               {errors["name"] && (
                 <i className=" text-sm text-red-500">please input nik!</i>
               )}
+            </div>
+
+            <div className="mb-2 flex justify-between gap-2">
+              <div className="flex-1">
+                <Label htmlFor="email" value="Email" />
+                <TextInput
+                  {...register("email")}
+                  placeholder="type email here..."
+                  type="email"
+                  className="my-2"
+                />
+                {errors["email"] && (
+                  <i className=" text-sm text-red-500">please input email!</i>
+                )}
+              </div>
+              <div className="flex-1">
+                <Label htmlFor="phone" value="Phone Number" />
+                <TextInput
+                  {...register("phone", { required: true })}
+                  className="my-2"
+                  placeholder="type phone number here..."
+                />
+                {errors["phone"] && (
+                  <i className=" text-sm text-red-500">
+                    please input phone number!
+                  </i>
+                )}
+              </div>
             </div>
 
             <div className="mb-2">
@@ -213,18 +245,14 @@ export const ModalUpdateEmployee = ({
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm();
+  } = useForm({ defaultValues: data });
   const { user } = useAuth();
+  const { refetch: refetchDetail } = useDetailEmployee(data?.id);
   const mutateUpdate = useMutation(updateEmployee);
+
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
-    setValue("nip", data?.nip);
-    setValue("nik", data?.nik);
-    setValue("name", data?.name);
-    setValue("address", data?.address);
-    setValue("role", data?.role);
-    setValue("religion", data?.religion);
     data?.birthDate &&
       setValue("birthDate", dayjs(data.birthDate).format("YYYY-MM-DD"));
     data?.joinDate &&
@@ -248,6 +276,7 @@ export const ModalUpdateEmployee = ({
         onSuccess: () => {
           handleClose();
           refetch();
+          refetchDetail();
         },
       }
     );
@@ -292,7 +321,7 @@ export const ModalUpdateEmployee = ({
                 placeholder="type nik here..."
                 className="my-2"
               />
-              {errors["nik"] && (
+              {errors.nik && (
                 <i className=" text-sm text-red-500">please input nik!</i>
               )}
             </div>
@@ -304,9 +333,37 @@ export const ModalUpdateEmployee = ({
                 placeholder="type full name here..."
                 className="my-2"
               />
-              {errors["name"] && (
+              {errors.name && (
                 <i className=" text-sm text-red-500">please input nik!</i>
               )}
+            </div>
+
+            <div className="mb-2 flex justify-between gap-2">
+              <div className="flex-1">
+                <Label htmlFor="email" value="Email" />
+                <TextInput
+                  {...register("email")}
+                  placeholder="type email here..."
+                  type="email"
+                  className="my-2"
+                />
+                {errors.email && (
+                  <i className=" text-sm text-red-500">please input email!</i>
+                )}
+              </div>
+              <div className="flex-1">
+                <Label htmlFor="phone" value="Phone Number" />
+                <TextInput
+                  {...register("phone", { required: true })}
+                  className="my-2"
+                  placeholder="type phone number here..."
+                />
+                {errors.phone && (
+                  <i className=" text-sm text-red-500">
+                    please input phone number!
+                  </i>
+                )}
+              </div>
             </div>
 
             <div className="mb-2">
@@ -332,7 +389,7 @@ export const ModalUpdateEmployee = ({
                   <option>Buddha</option>
                   <option>Khonghucu</option>
                 </Select>
-                {errors["religion"] && (
+                {errors.religion && (
                   <i className=" text-sm text-red-500">
                     please select religion!
                   </i>
@@ -355,7 +412,7 @@ export const ModalUpdateEmployee = ({
                       <option value="admin">Admin</option>
                       <option value="superAdmin">Super Admin</option>
                     </Select>
-                    {errors["role"] && (
+                    {errors.role && (
                       <i className=" text-sm text-red-500">
                         please select role!
                       </i>
@@ -373,7 +430,7 @@ export const ModalUpdateEmployee = ({
                   type="date"
                   className="my-2"
                 />
-                {errors["birthDate"] && (
+                {errors.birthDate && (
                   <i className=" text-sm text-red-500">
                     please input birth date!
                   </i>
@@ -386,7 +443,7 @@ export const ModalUpdateEmployee = ({
                   type="date"
                   className="my-2"
                 />
-                {errors["joinDate"] && (
+                {errors.joinDate && (
                   <i className=" text-sm text-red-500">
                     please input join date!
                   </i>
@@ -464,6 +521,40 @@ export const ModalDeleteEmployee = ({
           <Button
             onClick={handleClose}
             isLoading={mutateDelete.isLoading}
+            className=" bg-red-500 text-white hover:bg-red-600"
+          >
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+};
+
+export const ModalDetailEmployee = ({ children, data }: TModalEmployee) => {
+  const { data: _dt, refetch } = useDetailEmployee(data?.id);
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpen = () => {
+    !_dt && refetch();
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
+
+  const detailsEmployee = useMemo(() => _dt ?? data, [_dt, data]);
+
+  return (
+    <div>
+      {children && cloneElement(children, { onClick: handleOpen })}
+      <Modal show={open} onClose={handleClose}>
+        <Modal.Header>Detail Employee</Modal.Header>
+        <Modal.Body>
+          {detailsEmployee && <CardDetailEmployee data={detailsEmployee} />}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={handleClose}
             className=" bg-red-500 text-white hover:bg-red-600"
           >
             Cancel

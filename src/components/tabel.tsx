@@ -1,6 +1,7 @@
 import { Select, Table } from "flowbite-react";
 import { useMemo, type FC, type ReactElement } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { useSearchQuery } from "../hooks/searchQuery";
 import type { TPageInfo } from "../types";
 import Button from "./button";
 
@@ -50,6 +51,7 @@ const TabelComponent: FC<TabelProps> = function ({
 };
 
 export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
+  const { setQuery } = useSearchQuery();
   const showing = useMemo(() => {
     const start = (meta.pageIndex - 1) * meta.pageSize + 1;
     let end = meta.pageIndex * meta.pageSize;
@@ -58,10 +60,18 @@ export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
     return { start, end };
   }, [meta]);
 
+  const onNextPage = () => {
+    setQuery({ page: meta.pageIndex + 1 });
+  };
+  const onPrevPage = () => {
+    setQuery({ page: meta.pageIndex - 1 });
+  };
+
   return (
     <div className="flex justify-between border-t border-gray-200 pt-4 dark:border-gray-700">
       <div className="mb-4 flex items-center sm:mb-0">
         <Button
+          onClick={onPrevPage}
           disabled={meta.pageIndex < 2}
           className=" bg-transparent text-black hover:bg-gray-100 disabled:text-gray-300 dark:text-white dark:hover:bg-gray-700"
         >
@@ -69,6 +79,7 @@ export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
           <HiChevronLeft className="text-2xl" />
         </Button>
         <Button
+          onClick={onNextPage}
           disabled={meta.pageIndex === meta.pageCount}
           className="mr-2 bg-transparent text-black hover:bg-gray-100 disabled:text-gray-300 dark:text-white dark:hover:bg-gray-700"
         >
@@ -92,7 +103,10 @@ export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
           Entries per page
         </span>
-        <Select defaultValue={meta.pageSize}>
+        <Select
+          defaultValue={meta.pageSize}
+          onChange={(e) => setQuery({ pageSize: e.target.value })}
+        >
           <option>10</option>
           <option>50</option>
           <option>100</option>

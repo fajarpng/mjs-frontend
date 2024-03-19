@@ -17,6 +17,18 @@ export async function fetchEmployees(params?: object) {
     .catch(apiErrorHandler);
 }
 
+export async function fetchEmployeeById(id?: number) {
+  return axiosApiInstance
+    .get<{ data: TEmployee }>(`${BASE_URL}/employees/${id}`)
+    .then(
+      (res) => res.data.data,
+      (err) => {
+        throw err?.response?.data?.message || err?.message;
+      }
+    )
+    .catch(apiErrorHandler);
+}
+
 export async function addEmployee(body: object) {
   return axiosApiInstance
     .post(`${BASE_URL}/employees`, body)

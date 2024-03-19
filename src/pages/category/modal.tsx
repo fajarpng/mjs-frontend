@@ -109,15 +109,10 @@ export const ModalUpdateCategory = ({
     reset,
     handleSubmit,
     formState: { errors },
-    setValue,
-  } = useForm();
+  } = useForm({ defaultValues: data });
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleOpen = () => {
-    setValue("categoryName", data.categoryName);
-    setValue("categoryCode", data.categoryCode);
-    setOpen(true);
-  };
+  const handleOpen = () => setOpen(true);
   const handleClose = () => {
     reset();
     setOpen(false);
@@ -149,7 +144,7 @@ export const ModalUpdateCategory = ({
                 placeholder="type name here..."
                 className="my-2"
               />
-              {errors["categoryName"] && (
+              {errors.categoryName && (
                 <i className=" text-sm text-red-500">
                   please input category name!
                 </i>
@@ -163,7 +158,7 @@ export const ModalUpdateCategory = ({
                 placeholder="type code here..."
                 className="my-2"
               />
-              {errors["categoryCode"] && (
+              {errors.categoryCode && (
                 <i className=" text-sm text-red-500">
                   please input category code!
                 </i>

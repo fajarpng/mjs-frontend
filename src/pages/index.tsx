@@ -80,6 +80,7 @@ const SalesThisWeek: FC = function () {
 
 const SalesChart: FC = function () {
   const { mode } = useTheme();
+
   const isDarkTheme = mode === "dark";
 
   const borderColor = isDarkTheme ? "#374151" : "#F3F4F6";

@@ -21,7 +21,6 @@ const ExampleNavbar: FC = function () {
             <div className=" rounded-full bg-gray-700 text-white dark:bg-gray-700 dark:text-gray-100">
               <AiOutlineUser size={30} />
             </div>
-            {/* <DarkThemeToggle /> */}
           </div>
         </div>
       </div>
