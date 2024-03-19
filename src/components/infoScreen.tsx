@@ -21,7 +21,7 @@ export const InfoScreen: FC<TInfoScreen> = ({
   // rdener jika masih loading data
   if (status === "loading") {
     return (
-      <div className=" flex min-h-[300px] w-full flex-col items-center justify-center text-center">
+      <div className=" flex min-h-[300px] w-full flex-col items-center justify-center text-center dark:text-white">
         <AiOutlineLoading3Quarters
           size={100}
           className=" animate-spin text-gray-300"
