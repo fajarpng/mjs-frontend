@@ -5,8 +5,8 @@ export const CardDetailEmployee = ({ data }: { data: TEmployee }) => {
   return (
     <div className="grid gap-4 dark:text-white">
       {/* personal info */}
-      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-600 dark:bg-gray-700">
-        <div className=" mb-4 border-b border-gray-200 pb-2 dark:border-gray-600">
+      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div className=" mb-4 border-b border-gray-200 pb-2 dark:border-gray-700">
           Personal Information
         </div>
         <div className="grid grid-cols-2 gap-4">

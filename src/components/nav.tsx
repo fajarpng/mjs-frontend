@@ -1,4 +1,4 @@
-import { FaBox, FaUserAlt } from "react-icons/fa";
+import { FaBox, FaBoxes, FaUserAlt } from "react-icons/fa";
 import { HiChartPie } from "react-icons/hi";
 import type { TNav } from "../types";
 import { useAuth } from "../hooks/auth";
@@ -27,8 +27,8 @@ export const nav: TNav[] = [
     children: [
       {
         type: "item",
-        key: "/master-product",
-        name: "Master Product",
+        key: "/product",
+        name: "Product List",
       },
       {
         type: "item",
@@ -36,5 +36,11 @@ export const nav: TNav[] = [
         name: "Category Product",
       },
     ],
+  },
+  {
+    type: "item",
+    icon: FaBoxes,
+    name: "Stock Opnames",
+    key: "/stock-opname",
   },
 ];

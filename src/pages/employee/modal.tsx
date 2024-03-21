@@ -12,9 +12,9 @@ import {
 } from "../../api/employee";
 import Button from "../../components/button";
 import { useAuth } from "../../hooks/auth";
+import { useDetailEmployee } from "../../hooks/employee";
 import type { TEmployee } from "../../types";
 import { CardDetailEmployee } from "./cardDetail";
-import { useDetailEmployee } from "../../hooks/employee";
 
 interface TModalEmployee {
   children?: ReactElement;
@@ -245,7 +245,7 @@ export const ModalUpdateEmployee = ({
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm({ defaultValues: data });
+  } = useForm();
   const { user } = useAuth();
   const { refetch: refetchDetail } = useDetailEmployee(data?.id);
   const mutateUpdate = useMutation(updateEmployee);
@@ -253,10 +253,16 @@ export const ModalUpdateEmployee = ({
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
-    data?.birthDate &&
-      setValue("birthDate", dayjs(data.birthDate).format("YYYY-MM-DD"));
-    data?.joinDate &&
-      setValue("joinDate", dayjs(data.joinDate).format("YYYY-MM-DD"));
+    if (data) {
+      Object.keys(data).forEach((key: string) => {
+        setValue(key, data[key as keyof TEmployee]);
+      });
+
+      data.birthDate &&
+        setValue("birthDate", dayjs(data.birthDate).format("YYYY-MM-DD"));
+      data.joinDate &&
+        setValue("joinDate", dayjs(data.joinDate).format("YYYY-MM-DD"));
+    }
     setOpen(true);
   };
   const handleClose = () => {
@@ -321,7 +327,7 @@ export const ModalUpdateEmployee = ({
                 placeholder="type nik here..."
                 className="my-2"
               />
-              {errors.nik && (
+              {errors["nik"] && (
                 <i className=" text-sm text-red-500">please input nik!</i>
               )}
             </div>
@@ -333,7 +339,7 @@ export const ModalUpdateEmployee = ({
                 placeholder="type full name here..."
                 className="my-2"
               />
-              {errors.name && (
+              {errors["name"] && (
                 <i className=" text-sm text-red-500">please input nik!</i>
               )}
             </div>
@@ -347,7 +353,7 @@ export const ModalUpdateEmployee = ({
                   type="email"
                   className="my-2"
                 />
-                {errors.email && (
+                {errors["email"] && (
                   <i className=" text-sm text-red-500">please input email!</i>
                 )}
               </div>
@@ -358,7 +364,7 @@ export const ModalUpdateEmployee = ({
                   className="my-2"
                   placeholder="type phone number here..."
                 />
-                {errors.phone && (
+                {errors["phone"] && (
                   <i className=" text-sm text-red-500">
                     please input phone number!
                   </i>
@@ -389,7 +395,7 @@ export const ModalUpdateEmployee = ({
                   <option>Buddha</option>
                   <option>Khonghucu</option>
                 </Select>
-                {errors.religion && (
+                {errors["religion"] && (
                   <i className=" text-sm text-red-500">
                     please select religion!
                   </i>
@@ -412,7 +418,7 @@ export const ModalUpdateEmployee = ({
                       <option value="admin">Admin</option>
                       <option value="superAdmin">Super Admin</option>
                     </Select>
-                    {errors.role && (
+                    {errors["role"] && (
                       <i className=" text-sm text-red-500">
                         please select role!
                       </i>
@@ -430,7 +436,7 @@ export const ModalUpdateEmployee = ({
                   type="date"
                   className="my-2"
                 />
-                {errors.birthDate && (
+                {errors["birthDate"] && (
                   <i className=" text-sm text-red-500">
                     please input birth date!
                   </i>
@@ -443,7 +449,7 @@ export const ModalUpdateEmployee = ({
                   type="date"
                   className="my-2"
                 />
-                {errors.joinDate && (
+                {errors["joinDate"] && (
                   <i className=" text-sm text-red-500">
                     please input join date!
                   </i>
@@ -452,6 +458,15 @@ export const ModalUpdateEmployee = ({
             </div>
           </Modal.Body>
           <Modal.Footer className="flex justify-between">
+            {user?.role === "superAdmin" && (
+              <Button
+                onClick={onResetPassword}
+                isLoading={mutateUpdate.isLoading}
+                className=" border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white"
+              >
+                Reset Password
+              </Button>
+            )}
             <div className="flex gap-2">
               <Button
                 type="submit"
@@ -468,15 +483,6 @@ export const ModalUpdateEmployee = ({
                 Cancel
               </Button>
             </div>
-            {user?.role === "superAdmin" && (
-              <Button
-                onClick={onResetPassword}
-                isLoading={mutateUpdate.isLoading}
-                className=" bg-green-500 text-white hover:bg-green-600"
-              >
-                Reset Password
-              </Button>
-            )}
           </Modal.Footer>
         </form>
       </Modal>

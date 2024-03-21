@@ -1,1 +1,1 @@
-MJS - Admin Dashboard
+KINZOKU - Admin Dashboard

@@ -27,7 +27,7 @@ const CategoryPage: FC = function () {
               className=" bg-blue-500 text-white hover:bg-blue-600"
               leftIcon={<FaPlus />}
             >
-              Add
+              Add New
             </Button>
           </ModalAddCategory>
         </div>

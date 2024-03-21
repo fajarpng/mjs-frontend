@@ -24,7 +24,7 @@ interface ButtonProps extends BaseButtonAttributes {
 
 // base style
 const baseStyle = tv({
-  base: "text-center p-2 relative font-semibold text-sm whitespace-nowrap align-middle outline-none rounded-lg inline-flex items-center justify-center select-none disabled:cursor-not-allowed",
+  base: "text-center p-3 relative font-semibold text-sm whitespace-nowrap align-middle outline-none rounded-lg inline-flex items-center justify-center select-none disabled:cursor-not-allowed",
 });
 // eslint-disable-next-line react/display-name
 const Button = forwardRef<Ref, ButtonProps>((props, ref) => {

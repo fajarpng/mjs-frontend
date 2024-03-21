@@ -46,19 +46,20 @@ const SignInPage: FC = function () {
   return (
     <div className="flex flex-col items-center justify-center px-6 lg:h-screen lg:gap-y-12">
       <div className="my-6 flex items-center gap-x-1 lg:my-0">
-        <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-          MJS
-        </span>
+        <img
+          src="/images/logo-blue.png"
+          alt="kizoku logo"
+          className="w-[200px] object-contain dark:hidden"
+        />
+        <img
+          src="/images/logo-white.png"
+          alt="kizoku logo"
+          className="hidden w-[200px] object-contain dark:block"
+        />
       </div>
-      <Card
-        horizontal
-        className="w-full md:max-w-screen-sm [&>img]:hidden md:[&>img]:w-96 md:[&>img]:p-0 md:[&>*]:w-full md:[&>*]:p-16 lg:[&>img]:block"
-      >
-        {/* <h1 className="mb-3 text-2xl font-bold dark:text-white md:text-3xl">
-          Sign in
-        </h1> */}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-2">
+      <Card className="w-full p-8 md:max-w-screen-sm">
+        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
+          <div>
             <Label htmlFor="email" value="NIP" />
             <TextInput
               {...register("nip", { required: true })}
@@ -70,7 +71,7 @@ const SignInPage: FC = function () {
             )}
           </div>
 
-          <div className="mb-6">
+          <div>
             <Label htmlFor="password" value="Password" />
             <TextInput
               {...register("password", { required: true })}
@@ -82,14 +83,8 @@ const SignInPage: FC = function () {
               <i className=" text-sm text-red-500">please input password!</i>
             )}
           </div>
-          {/* <div className="mb-6 flex items-center justify-between">
-            <div className="flex items-center gap-x-3">
-              <Checkbox id="rememberMe" name="rememberMe" />
-              <Label htmlFor="rememberMe">Remember me</Label>
-            </div>
-            Lost Password?
-          </div> */}
-          <div className="mb-6 mt-4">
+
+          <div>
             <Button
               type="submit"
               className="w-full bg-primary-500 p-3 text-white hover:bg-primary-600 lg:w-auto"

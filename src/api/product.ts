@@ -16,3 +16,15 @@ export async function fetchProduct(params?: object) {
     )
     .catch(apiErrorHandler);
 }
+
+export async function fetchDetailProduct(id?: number) {
+  return axiosApiInstance
+    .get<{ data: TProduct }>(`${BASE_URL}/products/${id}`)
+    .then(
+      (res) => res.data.data,
+      (err) => {
+        throw err?.response?.data?.message || err?.message;
+      }
+    )
+    .catch(apiErrorHandler);
+}

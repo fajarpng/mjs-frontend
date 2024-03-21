@@ -10,7 +10,8 @@ import SignInPage from "../pages/authentication/sign-in";
 import CategoryPage from "../pages/category";
 import ChangePasswordPage from "../pages/changePassword";
 import EmployeePage from "../pages/employee";
-import MasterProductPage from "../pages/products/master";
+import MasterProductPage from "../pages/products";
+import StockOpnamePage from "../pages/stockOpnames";
 
 const MainLayout = function () {
   return (
@@ -38,8 +39,9 @@ const MainContent = function () {
         <Routes>
           <Route path="/" element={<DashboardPage />} index />
           {/* product routes */}
-          <Route path="/master-product" element={<MasterProductPage />} />
+          <Route path="/product" element={<MasterProductPage />} />
           <Route path="/category-product" element={<CategoryPage />} />
+          <Route path="/stock-opname" element={<StockOpnamePage />} />
           {/* user routes */}
           <Route path="/employee" element={<EmployeePage />} />
           {/* other routes */}

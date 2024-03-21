@@ -17,9 +17,11 @@ export interface TPageInfo {
 }
 // interface Product
 export interface TProduct {
-  id: number;
+  productId: number;
   productCode: string;
   productName: string;
+  categoryCode: string;
+  categoryName: string;
   barcode: string;
   description: string;
   qty: number;

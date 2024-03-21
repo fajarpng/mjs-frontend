@@ -1,10 +1,22 @@
-import { Label, Modal, TextInput } from "flowbite-react";
+import { Label, Modal, Select, TextInput } from "flowbite-react";
 import type { ReactElement } from "react";
-import { cloneElement, useState } from "react";
+import { cloneElement, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../components/button";
+import InputImage from "../../components/inputImage";
+import { useCategory } from "../../hooks/category";
+import { useDetailProduct } from "../../hooks/product";
+import type { TProduct } from "../../types";
 
-export const ModalAddProduct = ({ children }: { children?: ReactElement }) => {
+interface TModalProduct {
+  children?: ReactElement;
+  data?: TProduct;
+  refetch: () => void;
+}
+
+export const ModalAddProduct = ({ children }: TModalProduct) => {
+  const category = useCategory();
+  const listCategory = category.data?.data ?? [];
   const {
     register,
     reset,
@@ -18,7 +30,13 @@ export const ModalAddProduct = ({ children }: { children?: ReactElement }) => {
     reset();
     setOpen(false);
   };
-  const onSubmit = (data: object) => {
+  const onSubmit = (data: any) => {
+    const category = data.category.split("|");
+
+    data.categoryCode = category[0];
+    data.categoryName = category[1];
+    delete data.category;
+
     console.log(data);
 
     // mutateLogin.mutate(responseBody, {
@@ -44,45 +62,88 @@ export const ModalAddProduct = ({ children }: { children?: ReactElement }) => {
     <div>
       {children && cloneElement(children, { onClick: handleOpen })}
       <Modal show={open} onClose={handleClose}>
-        <Modal.Header>Add Employee</Modal.Header>
+        <Modal.Header>Add Product</Modal.Header>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Modal.Body>
-            <div className="mb-2">
-              <Label htmlFor="email" value="NIP" />
-              <TextInput
-                {...register("nip", { required: true })}
-                placeholder="type nip here..."
-                className="my-2"
-              />
-              {errors["nip"] && (
-                <i className=" text-sm text-red-500">please input nip!</i>
-              )}
+          <Modal.Body className="grid grid-cols-2 gap-2">
+            <div className="col-span-2">
+              <InputImage />
             </div>
 
-            <div className="mb-2">
-              <Label htmlFor="password" value="Password" />
+            <div className="col-span-2">
+              <Label htmlFor="productName" value="Product Name" />
               <TextInput
-                {...register("password", { required: true })}
-                placeholder="type password here..."
-                type="password"
+                {...register("productName", { required: true })}
+                placeholder="type product name here..."
                 className="my-2"
               />
-              {errors["password"] && (
-                <i className=" text-sm text-red-500">please input nip!</i>
-              )}
-            </div>
-
-            <div className="mb-2">
-              <Label htmlFor="date" value="Birth Date" />
-              <TextInput
-                {...register("birth", { required: true })}
-                type="date"
-                className="my-2 max-w-[250px]"
-              />
-              {errors["birth"] && (
+              {errors["productName"] && (
                 <i className=" text-sm text-red-500">
-                  please input birth date!
+                  please input product name!
                 </i>
+              )}
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="productCode" value="Product Code" />
+              <TextInput
+                {...register("productCode", { required: true })}
+                placeholder="type product code here..."
+                className="my-2"
+              />
+              {errors["productCode"] && (
+                <i className=" text-sm text-red-500">
+                  please input product code!
+                </i>
+              )}
+            </div>
+
+            <div>
+              <Label htmlFor="qty" value="Quantity" />
+              <TextInput
+                {...register("qty", { required: true })}
+                placeholder="type product quantitiy here..."
+                className="my-2"
+                type="number"
+              />
+              {errors["qty"] && (
+                <i className=" text-sm text-red-500">
+                  please input product quantitiy!
+                </i>
+              )}
+            </div>
+
+            <div>
+              <Label htmlFor="qtyMin" value="Quantity Min" />
+              <TextInput
+                {...register("qtyMin", { required: true })}
+                placeholder="type product minimum here..."
+                className="my-2"
+                type="number"
+              />
+              {errors["qtyMin"] && (
+                <i className=" text-sm text-red-500">
+                  please input product quantitiy minimum!
+                </i>
+              )}
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="category" value="Category" />
+              <Select
+                {...register("category", { required: true })}
+                className="my-2"
+              >
+                {listCategory.map((v) => (
+                  <option
+                    key={v.categoryCode}
+                    value={`${v.categoryCode}|${v.categoryName}`}
+                  >
+                    {v.categoryCode} - {v.categoryName}
+                  </option>
+                ))}
+              </Select>
+              {errors["category"] && (
+                <i className=" text-sm text-red-500">please select category!</i>
               )}
             </div>
           </Modal.Body>
@@ -101,6 +162,41 @@ export const ModalAddProduct = ({ children }: { children?: ReactElement }) => {
             </Button>
           </Modal.Footer>
         </form>
+      </Modal>
+    </div>
+  );
+};
+
+export const ModalDetailProduct = ({ children, data }: TModalProduct) => {
+  const { data: _dt, refetch } = useDetailProduct(data?.productId);
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpen = () => {
+    !_dt && refetch();
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
+
+  // eslint-disable-next-line no-unused-vars
+  const detailsProdutct = useMemo(() => _dt ?? data, [_dt, data]);
+
+  return (
+    <div>
+      {children && cloneElement(children, { onClick: handleOpen })}
+      <Modal show={open} onClose={handleClose}>
+        <Modal.Header>Detail Product</Modal.Header>
+        <Modal.Body>
+          {/* {detailsEmployee && <CardDetailEmployee data={detailsEmployee} />} */}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={handleClose}
+            className=" bg-red-500 text-white hover:bg-red-600"
+          >
+            Cancel
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );

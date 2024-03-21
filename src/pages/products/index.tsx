@@ -1,18 +1,30 @@
 import { Card, Table, TextInput } from "flowbite-react";
 import { type FC } from "react";
-import { FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useProduct } from "../../hooks/product";
-import { getQuery, renderDateTime } from "../../utils/helper";
+import { getQuery } from "../../utils/helper";
+import { ActionMenu } from "./menus";
 import { ModalAddProduct } from "./modal";
 
-const header = ["nip", "name", "code", "created", "updated", "action"];
+const header = [
+  "image",
+  "name",
+  "category",
+  "quantity",
+  "quantity min",
+  "action",
+];
 
 const MasterProductPage: FC = function () {
   const query: any = getQuery();
-  const { data, refetch, error, status } = useProduct(query);
+  const { data, refetch, error, status } = useProduct({
+    pageIndex: 1,
+    pageSize: 10,
+    ...query,
+  });
 
   return (
     <div>
@@ -37,12 +49,12 @@ const MasterProductPage: FC = function () {
                 </div>
               </form>
             </div>
-            <ModalAddProduct>
+            <ModalAddProduct refetch={refetch}>
               <Button
                 className=" bg-blue-500 text-white hover:bg-blue-600"
                 leftIcon={<FaPlus />}
               >
-                Add
+                Add New
               </Button>
             </ModalAddProduct>
           </div>
@@ -65,23 +77,27 @@ const MasterProductPage: FC = function () {
                   className="hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={i}
                 >
-                  <td className="p-2">{v.id}</td>
-                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.productName}
+                  <td className="w-32 p-2">
+                    <img
+                      src={v.imageUrl || "/images/empty.png"}
+                      alt={v.productCode}
+                      className="w-full"
+                    />
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.productCode}
+                    {v.productCode} - {v.productName}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.createdBy}
-                    {renderDateTime(v.createdAt)}
+                    {v.categoryCode} - {v.categoryName}
                   </td>
-                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.updatedBy}
-                    {renderDateTime(v.updatedAt)}
+                  <td className="w-32 whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
+                    {v.qty}
+                  </td>
+                  <td className="w-32 whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
+                    {v.qtyMin}
                   </td>
                   <td className="w-[50px]">
-                    <ActionMenu />
+                    <ActionMenu data={v} refetch={refetch} />
                   </td>
                 </Table.Row>
               ))}
@@ -89,22 +105,6 @@ const MasterProductPage: FC = function () {
           </TabelComponent>
         </InfoScreen>
       </Card>
-    </div>
-  );
-};
-
-const ActionMenu = () => {
-  return (
-    <div className=" flex justify-end gap-1 p-2">
-      <Button className=" border-2 border-blue-500 text-blue-500 hover:bg-primary-500 hover:text-white">
-        <FaEye />
-      </Button>
-      <Button className=" border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white">
-        <FaPen />
-      </Button>
-      <Button className=" border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
-        <FaTrash />
-      </Button>
     </div>
   );
 };
