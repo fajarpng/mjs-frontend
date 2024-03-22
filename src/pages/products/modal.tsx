@@ -1,3 +1,4 @@
+import { CardDetail } from "./cardDetail";
 import { Label, Modal, Select, TextInput } from "flowbite-react";
 import type { ReactElement } from "react";
 import { cloneElement, useMemo, useState } from "react";
@@ -416,7 +417,6 @@ export const ModalDetailProduct = ({ children, data }: TModalProduct) => {
 
   const handleClose = () => setOpen(false);
 
-  // eslint-disable-next-line no-unused-vars
   const detailsProdutct = useMemo(() => _dt ?? data, [_dt, data]);
 
   return (
@@ -425,7 +425,7 @@ export const ModalDetailProduct = ({ children, data }: TModalProduct) => {
       <Modal show={open} onClose={handleClose}>
         <Modal.Header>Detail Product</Modal.Header>
         <Modal.Body>
-          {/* {detailsEmployee && <CardDetailEmployee data={detailsEmployee} />} */}
+          {detailsProdutct && <CardDetail data={detailsProdutct} />}
         </Modal.Body>
         <Modal.Footer>
           <Button
