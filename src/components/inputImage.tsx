@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
 
 export default function InputImage() {
-  const [file, setFile] = useState<File | undefined>();
+  const [, setFile] = useState<File | undefined>();
   const [preview, setPreview] = useState<string>();
 
   function handleOnChange(e: React.FormEvent<HTMLInputElement>) {

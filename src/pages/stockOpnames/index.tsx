@@ -65,7 +65,7 @@ const StockOpnamePage: FC = function () {
                   className="hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={i}
                 >
-                  <td className="p-2">{v.id}</td>
+                  <td className="p-2">{v.productId}</td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.productName}
                   </td>
