@@ -1,7 +1,11 @@
 import { FaEye, FaPen, FaTrash } from "react-icons/fa";
 import Button from "../../components/button";
 import type { TProduct } from "../../types";
-import { ModalDetailProduct } from "./modal";
+import {
+  ModalDeleteProduct,
+  ModalDetailProduct,
+  ModalUpdateProduct,
+} from "./modal";
 
 interface TAction {
   data: TProduct;
@@ -16,12 +20,16 @@ export const ActionMenu = ({ data, refetch }: TAction) => {
           <FaEye />
         </Button>
       </ModalDetailProduct>
-      <Button className="border-2 border-green-500 p-2 text-green-500 hover:bg-green-500 hover:text-white">
-        <FaPen />
-      </Button>
-      <Button className="border-2 border-red-500 p-2 text-red-500 hover:bg-red-500 hover:text-white">
-        <FaTrash />
-      </Button>
+      <ModalUpdateProduct data={data} refetch={refetch}>
+        <Button className="border-2 border-green-500 p-2 text-green-500 hover:bg-green-500 hover:text-white">
+          <FaPen />
+        </Button>
+      </ModalUpdateProduct>
+      <ModalDeleteProduct data={data} refetch={refetch}>
+        <Button className="border-2 border-red-500 p-2 text-red-500 hover:bg-red-500 hover:text-white">
+          <FaTrash />
+        </Button>
+      </ModalDeleteProduct>
     </div>
   );
 };

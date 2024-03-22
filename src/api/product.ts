@@ -28,3 +28,39 @@ export async function fetchDetailProduct(id?: number) {
     )
     .catch(apiErrorHandler);
 }
+
+export async function addProduct(body: object) {
+  return axiosApiInstance
+    .post(`${BASE_URL}/products`, body)
+    .then(
+      () => true,
+      (err) => {
+        throw err?.response?.data?.message || err?.message;
+      }
+    )
+    .catch(apiErrorHandler);
+}
+
+export async function updateProduct({ id, ...body }: any) {
+  return axiosApiInstance
+    .put(`${BASE_URL}/products/${id}`, body)
+    .then(
+      () => true,
+      (err) => {
+        throw err?.response?.data?.message || err?.message;
+      }
+    )
+    .catch(apiErrorHandler);
+}
+
+export async function deleteProduct(id?: number) {
+  return axiosApiInstance
+    .delete(`${BASE_URL}/products/${id}`)
+    .then(
+      () => true,
+      (err) => {
+        throw err?.response?.data?.message || err?.message;
+      }
+    )
+    .catch(apiErrorHandler);
+}

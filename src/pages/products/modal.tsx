@@ -2,8 +2,9 @@ import { Label, Modal, Select, TextInput } from "flowbite-react";
 import type { ReactElement } from "react";
 import { cloneElement, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import { addProduct, deleteProduct, updateProduct } from "../../api/product";
 import Button from "../../components/button";
-import InputImage from "../../components/inputImage";
 import { useCategory } from "../../hooks/category";
 import { useDetailProduct } from "../../hooks/product";
 import type { TProduct } from "../../types";
@@ -14,7 +15,7 @@ interface TModalProduct {
   refetch: () => void;
 }
 
-export const ModalAddProduct = ({ children }: TModalProduct) => {
+export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
   const category = useCategory();
   const listCategory = category.data?.data ?? [];
   const {
@@ -24,6 +25,7 @@ export const ModalAddProduct = ({ children }: TModalProduct) => {
     formState: { errors },
   } = useForm();
   const [open, setOpen] = useState<boolean>(false);
+  const mutateAdd = useMutation(addProduct);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -35,27 +37,15 @@ export const ModalAddProduct = ({ children }: TModalProduct) => {
 
     data.categoryCode = category[0];
     data.categoryName = category[1];
+    data.type = "string";
     delete data.category;
 
-    console.log(data);
-
-    // mutateLogin.mutate(responseBody, {
-    //   onSuccess: (data) => {
-    //     if (
-    //       data.employee.role === "admin" ||
-    //       data.employee.role === "superAdmin"
-    //     ) {
-    //       navigate("/", { replace: true });
-    //       setUser(data);
-    //     } else {
-    //       Swal.fire({
-    //         title: "Access Denied!",
-    //         text: "You can not access this page.",
-    //         icon: "error",
-    //       });
-    //     }
-    //   },
-    // });
+    mutateAdd.mutate(data, {
+      onSuccess: () => {
+        handleClose();
+        refetch();
+      },
+    });
   };
 
   return (
@@ -65,8 +55,22 @@ export const ModalAddProduct = ({ children }: TModalProduct) => {
         <Modal.Header>Add Product</Modal.Header>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body className="grid grid-cols-2 gap-2">
-            <div className="col-span-2">
+            {/* <div className="col-span-2">
               <InputImage />
+            </div> */}
+
+            <div className="col-span-2">
+              <Label htmlFor="imageUrl" value="Image Url" />
+              <TextInput
+                {...register("imageUrl", { required: true })}
+                placeholder="type image url here..."
+                className="my-2"
+              />
+              {errors["imageUrl"] && (
+                <i className=" text-sm text-red-500">
+                  please input product image url!
+                </i>
+              )}
             </div>
 
             <div className="col-span-2">
@@ -132,7 +136,192 @@ export const ModalAddProduct = ({ children }: TModalProduct) => {
               <Select
                 {...register("category", { required: true })}
                 className="my-2"
+                defaultValue="select category here..."
               >
+                <option value="" disabled selected>
+                  select product category
+                </option>
+                {listCategory.map((v) => (
+                  <option
+                    key={v.categoryCode}
+                    value={`${v.categoryCode}|${v.categoryName}`}
+                  >
+                    {v.categoryCode} - {v.categoryName}
+                  </option>
+                ))}
+              </Select>
+              {errors["category"] && (
+                <i className=" text-sm text-red-500">please select category!</i>
+              )}
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              isLoading={mutateAdd.isLoading}
+              type="submit"
+              className=" bg-blue-500 text-white hover:bg-blue-600"
+            >
+              Save
+            </Button>
+            <Button
+              isLoading={mutateAdd.isLoading}
+              onClick={handleClose}
+              className=" bg-red-500 text-white hover:bg-red-600"
+            >
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
+    </div>
+  );
+};
+
+export const ModalUpdateProduct = ({
+  children,
+  refetch,
+  data,
+}: TModalProduct) => {
+  const category = useCategory();
+  const listCategory = category.data?.data ?? [];
+  const {
+    register,
+    reset,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const [open, setOpen] = useState<boolean>(false);
+  const mutateUpdate = useMutation(updateProduct);
+
+  const handleOpen = () => {
+    if (data) {
+      Object.keys(data).forEach((key: string) => {
+        setValue(key, data[key as keyof TProduct]);
+      });
+
+      setValue("category", `${data.categoryCode}|${data.categoryName}`);
+    }
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    reset();
+    setOpen(false);
+  };
+
+  const onSubmit = (body: any) => {
+    const category = body.category.split("|");
+
+    body.categoryCode = category[0];
+    body.categoryName = category[1];
+    body.type = "string";
+    delete body.category;
+
+    mutateUpdate.mutate(
+      { id: data?.productId, ...body },
+      {
+        onSuccess: () => {
+          handleClose();
+          refetch();
+        },
+      }
+    );
+  };
+
+  return (
+    <div>
+      {children && cloneElement(children, { onClick: handleOpen })}
+      <Modal show={open} onClose={handleClose}>
+        <Modal.Header>Update Product</Modal.Header>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Modal.Body className="grid grid-cols-2 gap-2">
+            {/* <div className="col-span-2">
+              <InputImage />
+            </div> */}
+
+            <div className="col-span-2">
+              <Label htmlFor="imageUrl" value="Image Url" />
+              <TextInput
+                {...register("imageUrl", { required: true })}
+                placeholder="type image url here..."
+                className="my-2"
+              />
+              {errors["imageUrl"] && (
+                <i className=" text-sm text-red-500">
+                  please input product image url!
+                </i>
+              )}
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="productName" value="Product Name" />
+              <TextInput
+                {...register("productName", { required: true })}
+                placeholder="type product name here..."
+                className="my-2"
+              />
+              {errors["productName"] && (
+                <i className=" text-sm text-red-500">
+                  please input product name!
+                </i>
+              )}
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="productCode" value="Product Code" />
+              <TextInput
+                {...register("productCode", { required: true })}
+                placeholder="type product code here..."
+                className="my-2"
+              />
+              {errors["productCode"] && (
+                <i className=" text-sm text-red-500">
+                  please input product code!
+                </i>
+              )}
+            </div>
+
+            <div>
+              <Label htmlFor="qty" value="Quantity" />
+              <TextInput
+                {...register("qty", { required: true })}
+                placeholder="type product quantitiy here..."
+                className="my-2"
+                type="number"
+              />
+              {errors["qty"] && (
+                <i className=" text-sm text-red-500">
+                  please input product quantitiy!
+                </i>
+              )}
+            </div>
+
+            <div>
+              <Label htmlFor="qtyMin" value="Quantity Min" />
+              <TextInput
+                {...register("qtyMin", { required: true })}
+                placeholder="type product minimum here..."
+                className="my-2"
+                type="number"
+              />
+              {errors["qtyMin"] && (
+                <i className=" text-sm text-red-500">
+                  please input product quantitiy minimum!
+                </i>
+              )}
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="category" value="Category" />
+              <Select
+                {...register("category", { required: true })}
+                className="my-2"
+                defaultValue="select category here..."
+              >
+                <option value="" disabled selected>
+                  select product category
+                </option>
                 {listCategory.map((v) => (
                   <option
                     key={v.categoryCode}
@@ -150,11 +339,13 @@ export const ModalAddProduct = ({ children }: TModalProduct) => {
           <Modal.Footer>
             <Button
               type="submit"
+              isLoading={mutateUpdate.isLoading}
               className=" bg-blue-500 text-white hover:bg-blue-600"
             >
               Save
             </Button>
             <Button
+              isLoading={mutateUpdate.isLoading}
               onClick={handleClose}
               className=" bg-red-500 text-white hover:bg-red-600"
             >
@@ -162,6 +353,53 @@ export const ModalAddProduct = ({ children }: TModalProduct) => {
             </Button>
           </Modal.Footer>
         </form>
+      </Modal>
+    </div>
+  );
+};
+
+export const ModalDeleteProduct = ({
+  children,
+  data,
+  refetch,
+}: TModalProduct) => {
+  const mutateDelete = useMutation(deleteProduct);
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const onSubmit = () => {
+    mutateDelete.mutate(data?.productId, {
+      onSuccess: () => {
+        handleClose();
+        refetch();
+      },
+    });
+  };
+
+  return (
+    <div>
+      {children && cloneElement(children, { onClick: handleOpen })}
+      <Modal show={open} onClose={handleClose}>
+        <Modal.Header>Delete Product</Modal.Header>
+        <Modal.Body>Do You Want to delete this product?</Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={onSubmit}
+            isLoading={mutateDelete.isLoading}
+            className=" bg-blue-500 text-white hover:bg-blue-600"
+          >
+            Delete
+          </Button>
+          <Button
+            onClick={handleClose}
+            isLoading={mutateDelete.isLoading}
+            className=" bg-red-500 text-white hover:bg-red-600"
+          >
+            Cancel
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );
