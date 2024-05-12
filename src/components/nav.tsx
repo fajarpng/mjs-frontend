@@ -1,7 +1,13 @@
-import { FaBox, FaBoxes, FaUserAlt } from "react-icons/fa";
+import {
+  FaBox,
+  FaBoxes,
+  FaClipboardList,
+  FaIndustry,
+  FaUserAlt,
+} from "react-icons/fa";
 import { HiChartPie } from "react-icons/hi";
-import type { TNav } from "../types";
 import { useAuth } from "../hooks/auth";
+import type { TNav } from "../types";
 
 // eslint-disable-next-line no-empty-pattern
 const {} = useAuth.getState();
@@ -42,5 +48,17 @@ export const nav: TNav[] = [
     icon: FaBoxes,
     name: "Stock Opnames",
     key: "/stock-opname",
+  },
+  {
+    type: "item",
+    icon: FaClipboardList,
+    name: "Stock Transaction",
+    key: "/stock-transaction",
+  },
+  {
+    type: "item",
+    icon: FaIndustry,
+    name: "Supplier",
+    key: "/supplier",
   },
 ];

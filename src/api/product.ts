@@ -19,9 +19,9 @@ export async function fetchProduct(params?: object) {
 
 export async function fetchDetailProduct(id?: number) {
   return axiosApiInstance
-    .get<{ data: TProduct }>(`${BASE_URL}/products/${id}`)
+    .get<{ data: TProduct[] }>(`${BASE_URL}/products/${id}`)
     .then(
-      (res) => res.data.data,
+      (res) => res.data.data[0],
       (err) => {
         throw err?.response?.data?.message || err?.message;
       }

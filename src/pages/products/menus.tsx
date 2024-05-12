@@ -1,4 +1,5 @@
-import { FaEye, FaPen, FaTrash } from "react-icons/fa";
+import { FaEye, FaPen, FaPrint, FaTrash } from "react-icons/fa";
+import ReactToPrint from "react-to-print";
 import Button from "../../components/button";
 import type { TProduct } from "../../types";
 import {
@@ -15,6 +16,13 @@ interface TAction {
 export const ActionMenu = ({ data, refetch }: TAction) => {
   return (
     <div className=" flex justify-end gap-2 p-2">
+      <ReactToPrint
+        trigger={() => (
+          <Button className="border-2 border-yellow-500 p-2 text-yellow-500 hover:bg-yellow-500 hover:text-white">
+            <FaPrint />
+          </Button>
+        )}
+      />
       <ModalDetailProduct data={data} refetch={refetch}>
         <Button className="border-2 border-blue-500 p-2 text-blue-500 hover:bg-primary-500 hover:text-white">
           <FaEye />

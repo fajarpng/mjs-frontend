@@ -6,5 +6,7 @@ export const useProduct = (query?: object) => {
 };
 
 export const useDetailProduct = (id?: number) => {
-  return useQuery(["product/detail", id], () => fetchDetailProduct(id));
+  return useQuery(["product/detail", id], () => fetchDetailProduct(id), {
+    enabled: false,
+  });
 };

@@ -12,6 +12,8 @@ import ChangePasswordPage from "../pages/changePassword";
 import EmployeePage from "../pages/employee";
 import MasterProductPage from "../pages/products";
 import StockOpnamePage from "../pages/stockOpnames";
+import StockTransactionPage from "../pages/stockTransaction";
+import SupplierPage from "../pages/supplir";
 
 const MainLayout = function () {
   return (
@@ -42,6 +44,8 @@ const MainContent = function () {
           <Route path="/product" element={<MasterProductPage />} />
           <Route path="/category-product" element={<CategoryPage />} />
           <Route path="/stock-opname" element={<StockOpnamePage />} />
+          <Route path="/stock-transaction" element={<StockTransactionPage />} />
+          <Route path="/supplier" element={<SupplierPage />} />
           {/* user routes */}
           <Route path="/employee" element={<EmployeePage />} />
           {/* other routes */}

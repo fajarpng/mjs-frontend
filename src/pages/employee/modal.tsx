@@ -142,8 +142,9 @@ export const ModalAddEmployee = ({ children, refetch }: TModalEmployee) => {
                 <Select
                   {...register("religion", { required: true })}
                   className="my-2"
+                  defaultValue=""
                 >
-                  <option value="" disabled selected>
+                  <option value="" disabled>
                     select religion
                   </option>
                   <option>Islam</option>

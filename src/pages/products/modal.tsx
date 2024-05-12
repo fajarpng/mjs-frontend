@@ -1,5 +1,4 @@
-import { CardDetail } from "./cardDetail";
-import { Label, Modal, Select, TextInput } from "flowbite-react";
+import { Label, Modal, Select, TextInput, Textarea } from "flowbite-react";
 import type { ReactElement } from "react";
 import { cloneElement, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,6 +8,7 @@ import Button from "../../components/button";
 import { useCategory } from "../../hooks/category";
 import { useDetailProduct } from "../../hooks/product";
 import type { TProduct } from "../../types";
+import { CardDetail } from "./cardDetail";
 
 interface TModalProduct {
   children?: ReactElement;
@@ -36,6 +36,7 @@ export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
   const onSubmit = (data: any) => {
     const category = data.category.split("|");
 
+    data.qty = 0;
     data.categoryCode = category[0];
     data.categoryName = category[1];
     data.type = "string";
@@ -103,21 +104,6 @@ export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
             </div>
 
             <div>
-              <Label htmlFor="qty" value="Quantity" />
-              <TextInput
-                {...register("qty", { required: true })}
-                placeholder="type product quantitiy here..."
-                className="my-2"
-                type="number"
-              />
-              {errors["qty"] && (
-                <i className=" text-sm text-red-500">
-                  please input product quantitiy!
-                </i>
-              )}
-            </div>
-
-            <div>
               <Label htmlFor="qtyMin" value="Quantity Min" />
               <TextInput
                 {...register("qtyMin", { required: true })}
@@ -137,9 +123,9 @@ export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
               <Select
                 {...register("category", { required: true })}
                 className="my-2"
-                defaultValue="select category here..."
+                defaultValue=""
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   select product category
                 </option>
                 {listCategory.map((v) => (
@@ -154,6 +140,15 @@ export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
               {errors["category"] && (
                 <i className=" text-sm text-red-500">please select category!</i>
               )}
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="description" value="Description" />
+              <Textarea
+                {...register("description")}
+                placeholder="type product description here..."
+                className="my-2"
+              />
             </div>
           </Modal.Body>
           <Modal.Footer>
@@ -318,9 +313,8 @@ export const ModalUpdateProduct = ({
               <Select
                 {...register("category", { required: true })}
                 className="my-2"
-                defaultValue="select category here..."
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   select product category
                 </option>
                 {listCategory.map((v) => (
@@ -335,6 +329,15 @@ export const ModalUpdateProduct = ({
               {errors["category"] && (
                 <i className=" text-sm text-red-500">please select category!</i>
               )}
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="description" value="Description" />
+              <Textarea
+                {...register("description")}
+                placeholder="type product description here..."
+                className="my-2"
+              />
             </div>
           </Modal.Body>
           <Modal.Footer>
@@ -432,7 +435,7 @@ export const ModalDetailProduct = ({ children, data }: TModalProduct) => {
             onClick={handleClose}
             className=" bg-red-500 text-white hover:bg-red-600"
           >
-            Cancel
+            Close
           </Button>
         </Modal.Footer>
       </Modal>
