@@ -37,6 +37,7 @@ export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
     const category = data.category.split("|");
 
     data.qty = 0;
+    data.barcode = data.productCode;
     data.categoryCode = category[0];
     data.categoryName = category[1];
     data.type = "string";
