@@ -20,7 +20,7 @@ export const formatNmber = (price: string) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
 
-export const renderDateTime = (date: string) => {
+export const renderDateTime = (date: string | Date) => {
   if (!date) return "Invalid Date";
   return dayjs(date).format("DD-MM-YYYY HH:mm");
 };

@@ -1,51 +1,45 @@
-import { Card, Table, TextInput } from "flowbite-react";
+import { Card, Table } from "flowbite-react";
 import { type FC } from "react";
-import { FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
-import { useProduct } from "../../hooks/product";
+import { useStock } from "../../hooks/stockTranscation";
 import { getQuery, renderDateTime } from "../../utils/helper";
-import { ModalAddProduct } from "./modal";
+import { ActionMenu } from "./menus";
+import { ModalAddStock } from "./modal";
 
-const header = ["nip", "name", "code", "created", "updated", "action"];
+const header = [
+  "id",
+  "type",
+  "supplier",
+  "notes",
+  "created",
+  "updated",
+  "action",
+];
 
 const StockTransactionPage: FC = function () {
   const query: any = getQuery();
-  const { data, refetch, error, status } = useProduct(query);
+  const { data, refetch, error, status } = useStock(query);
 
   return (
     <div>
       <Card className="m-1">
         {/* header */}
-        <div className="mb-1 w-full">
+        <div className="mb-1 flex w-full items-center justify-between">
           {/* title */}
-          <h1 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+          <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
             Stock Transaction
           </h1>
-          {/* filter */}
-          <div className="flex justify-between">
-            <div className="mb-3 hidden items-center dark:divide-gray-700 sm:mb-0 sm:flex sm:divide-x sm:divide-gray-100">
-              <form className="lg:pr-3">
-                <div className="relative mt-1 lg:w-64 xl:w-96">
-                  <TextInput
-                    name="search"
-                    defaultValue={query.search}
-                    onSubmit={(e) => e.preventDefault()}
-                    placeholder="search..."
-                  />
-                </div>
-              </form>
-            </div>
-            <ModalAddProduct>
-              <Button
-                className=" bg-blue-500 text-white hover:bg-blue-600"
-                leftIcon={<FaPlus />}
-              >
-                Add New
-              </Button>
-            </ModalAddProduct>
-          </div>
+          <ModalAddStock refetch={refetch}>
+            <Button
+              className=" bg-blue-500 text-white hover:bg-blue-600"
+              leftIcon={<FaPlus />}
+            >
+              Add New
+            </Button>
+          </ModalAddStock>
         </div>
       </Card>
       {/* tabel */}
@@ -55,25 +49,29 @@ const StockTransactionPage: FC = function () {
         <InfoScreen
           status={status}
           reload={refetch}
-          dataLength={data?.data.length}
+          dataLength={data?.length}
           error={error}
         >
-          <TabelComponent header={header} pagination={data?.meta}>
+          <TabelComponent header={header}>
             <Table.Body>
-              {data?.data.map((v, i) => (
+              {data?.map((v, i) => (
                 <Table.Row
                   className="hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={i}
                 >
-                  <td className="p-2">{v.productId}</td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.productName}
+                    {v.number}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.productCode}
+                    {v.type}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.createdBy}
+                    {v.supplierCode}
+                  </td>
+                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
+                    {v.notes}
+                  </td>
+                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {renderDateTime(v.createdAt)}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -81,7 +79,7 @@ const StockTransactionPage: FC = function () {
                     {renderDateTime(v.updatedAt)}
                   </td>
                   <td className="w-[50px]">
-                    <ActionMenu />
+                    <ActionMenu data={v} refetch={refetch} />
                   </td>
                 </Table.Row>
               ))}
@@ -89,22 +87,6 @@ const StockTransactionPage: FC = function () {
           </TabelComponent>
         </InfoScreen>
       </Card>
-    </div>
-  );
-};
-
-const ActionMenu = () => {
-  return (
-    <div className=" flex justify-end gap-1 p-2">
-      <Button className=" border-2 border-blue-500 text-blue-500 hover:bg-primary-500 hover:text-white">
-        <FaEye />
-      </Button>
-      <Button className=" border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white">
-        <FaPen />
-      </Button>
-      <Button className=" border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
-        <FaTrash />
-      </Button>
     </div>
   );
 };

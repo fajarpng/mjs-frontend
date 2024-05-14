@@ -28,12 +28,12 @@ export interface TProduct {
   qtyMin: number;
   type: string;
   imageUrl: string;
-  createdAt: string;
+  createdAt: Date;
   createdBy: string;
-  updatedAt: string;
+  updatedAt: Date;
   updatedBy: string;
   isDeleted: boolean;
-  deletedAt: string;
+  deletedAt: Date;
   deletedBy: string;
 }
 // interface employee
@@ -47,9 +47,9 @@ export interface TEmployee {
   phone: string;
   religion: string;
   birthDate: string;
-  joinDate: string;
-  createdAt: string;
-  updatedAt: string;
+  joinDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
   isDeleted: boolean;
   role: "superAdmin" | "admin" | "staff";
   token: string;
@@ -63,7 +63,43 @@ export interface TCategory {
   createdBy: string;
   deletedBy: string;
   isDeleted: boolean;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date;
+}
+// interface stock
+export interface TStock {
+  id: number;
+  number: string;
+  type: string;
+  notes: string;
+  supplierCode: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date;
+  createdBy: number;
+  updatedBy: number;
+}
+// interface stock
+export interface TStock {
+  id: number;
+  number: string;
+  type: string;
+  notes: string;
+  supplierCode: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date;
+  createdBy: number;
+  updatedBy: number;
+}
+// interface supplier
+export interface TSupplier {
+  id: number;
+  supplierCode: string;
+  supplierName: string;
+  address: string;
+  phone: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
