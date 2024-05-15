@@ -47,13 +47,8 @@ export async function addSupplier(body: object) {
     .catch(apiErrorHandler);
 }
 
-export async function updateSupplier({
-  supplierCode,
-  body,
-}: {
-  supplierCode?: string;
-  body: any;
-}) {
+export async function updateSupplier(body: any) {
+  const supplierCode = body.supplierCode || "";
   return axiosApiInstance
     .put(`${BASE_URL}/supplier/${supplierCode}?code=${supplierCode}`, body)
     .then(

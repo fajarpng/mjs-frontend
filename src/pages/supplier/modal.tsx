@@ -151,15 +151,12 @@ export const ModalUpdateSupplier = ({
   const onSubmit = (body: any) => {
     body.notes = body.notes || "-";
 
-    mutateUpdate.mutate(
-      { supplierCode: data?.supplierCode, body },
-      {
-        onSuccess: () => {
-          handleClose();
-          refetch();
-        },
-      }
-    );
+    mutateUpdate.mutate(body, {
+      onSuccess: () => {
+        handleClose();
+        refetch();
+      },
+    });
   };
 
   return (
@@ -187,6 +184,7 @@ export const ModalUpdateSupplier = ({
                 {...register("supplierCode", { required: true })}
                 placeholder="type code here..."
                 className="my-2"
+                disabled
               />
               {errors["supplierCode"] && (
                 <i className=" text-sm text-red-500">please input code!</i>
