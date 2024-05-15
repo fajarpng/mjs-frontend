@@ -1,6 +1,6 @@
 import { Label, Modal, Select, TextInput, Textarea } from "flowbite-react";
 import type { ReactElement } from "react";
-import { cloneElement, useMemo, useState } from "react";
+import { cloneElement, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { addProduct, deleteProduct, updateProduct } from "../../api/product";
@@ -10,6 +10,7 @@ import { useDetailProduct } from "../../hooks/product";
 import type { TProduct } from "../../types";
 import { CardDetail } from "./cardDetail";
 import Barcode from "react-barcode";
+import { useReactToPrint } from "react-to-print";
 
 interface TModalProduct {
   children?: ReactElement;
@@ -437,8 +438,22 @@ export const ModalDetailProduct = ({ children, data }: TModalProduct) => {
 };
 
 export const ModalProductBarcode = ({ children, data }: TModalProduct) => {
+  const componentRef = useRef<Barcode>(null);
   const { data: _dt, refetch } = useDetailProduct(data?.productId);
   const [open, setOpen] = useState<boolean>(false);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    pageStyle: `
+    @page { size: 30mm 20mm };
+    @media all {
+      .pageBreak { display: none }
+    };
+    @media print {
+      .pageBreak { page-break-before: always }
+    }
+    `,
+  });
 
   const handleOpen = () => {
     !_dt && refetch();
@@ -457,13 +472,19 @@ export const ModalProductBarcode = ({ children, data }: TModalProduct) => {
         <Modal.Body>
           {detailsProdutct && (
             <div className="flex items-center justify-center">
-              <Barcode value={detailsProdutct.productCode} />
+              <Barcode
+                width={1}
+                height={30}
+                ref={componentRef}
+                value={detailsProdutct.productCode}
+              />
             </div>
           )}
         </Modal.Body>
         <Modal.Footer>
           <Button
             type="submit"
+            onClick={handlePrint}
             className=" bg-blue-500 text-white hover:bg-blue-600"
           >
             Print
