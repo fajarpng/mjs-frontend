@@ -12,7 +12,7 @@ import EmployeePage from "../pages/employee";
 import MasterProductPage from "../pages/products";
 import StockOpnamePage from "../pages/stockOpnames";
 import StockTransactionPage from "../pages/stockTransaction";
-import SupplierPage from "../pages/supplir";
+import SupplierPage from "../pages/supplier";
 import BundlingPage from "../pages/bundling";
 import BundlingDetailPage from "../pages/bundlingDetail";
 import DetailStockTransactionPage from "../pages/stockTransactionDetail";

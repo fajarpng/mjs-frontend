@@ -1,14 +1,24 @@
 import { Card, Table } from "flowbite-react";
 import { type FC } from "react";
-import { FaEye, FaPen, FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useSupplier } from "../../hooks/supplier";
 import { getQuery, renderDateTime } from "../../utils/helper";
-import { ModalAddProduct } from "./modal";
+import { ActionMenu } from "./menus";
+import { ModalAddSupplier } from "./modal";
 
-const header = ["nip", "name", "code", "created", "updated", "action"];
+const header = [
+  "nip",
+  "name",
+  "code",
+  "address",
+  "phone",
+  "created",
+  "updated",
+  "action",
+];
 
 const SupplierPage: FC = function () {
   const query: any = getQuery();
@@ -18,19 +28,19 @@ const SupplierPage: FC = function () {
     <div>
       <Card className="m-1">
         {/* header */}
-        <div className="mb-1 flex w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           {/* title */}
-          <h1 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+          <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
             Supplier
           </h1>
-          <ModalAddProduct>
+          <ModalAddSupplier refetch={refetch}>
             <Button
               className=" bg-blue-500 text-white hover:bg-blue-600"
               leftIcon={<FaPlus />}
             >
               Add New
             </Button>
-          </ModalAddProduct>
+          </ModalAddSupplier>
         </div>
       </Card>
       {/* tabel */}
@@ -59,13 +69,18 @@ const SupplierPage: FC = function () {
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.address}
+                  </td>
+                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
+                    {v.phone}
+                  </td>
+                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {renderDateTime(v.createdAt)}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {renderDateTime(v.updatedAt)}
                   </td>
                   <td className="w-[50px]">
-                    <ActionMenu />
+                    <ActionMenu data={v} refetch={refetch} />
                   </td>
                 </Table.Row>
               ))}
@@ -73,22 +88,6 @@ const SupplierPage: FC = function () {
           </TabelComponent>
         </InfoScreen>
       </Card>
-    </div>
-  );
-};
-
-const ActionMenu = () => {
-  return (
-    <div className=" flex justify-end gap-1 p-2">
-      <Button className=" border-2 border-blue-500 text-blue-500 hover:bg-primary-500 hover:text-white">
-        <FaEye />
-      </Button>
-      <Button className=" border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white">
-        <FaPen />
-      </Button>
-      <Button className=" border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
-        <FaTrash />
-      </Button>
     </div>
   );
 };

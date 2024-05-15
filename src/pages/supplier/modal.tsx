@@ -1,29 +1,30 @@
-import { Label, Modal, Select, TextInput } from "flowbite-react";
+import { Label, Modal, TextInput } from "flowbite-react";
 import type { ReactElement } from "react";
 import { cloneElement, useState } from "react";
 import { useForm } from "react-hook-form";
-import Button from "../../components/button";
 import { useMutation } from "react-query";
-import { addStock, deleteStock, updateStock } from "../../api/stockTransaction";
-import type { TStock } from "../../types";
-import { useSupplier } from "../../hooks/supplier";
+import {
+  addSupplier,
+  deleteSupplier,
+  updateSupplier,
+} from "../../api/supplier";
+import Button from "../../components/button";
+import type { TSupplier } from "../../types";
 
-interface TModalStock {
+interface TModalSupplier {
   children?: ReactElement;
-  data?: TStock;
+  data?: TSupplier;
   refetch: () => void;
 }
 
-export const ModalAddStock = ({ children, refetch }: TModalStock) => {
-  const { data: supplier } = useSupplier();
-
+export const ModalAddSupplier = ({ children, refetch }: TModalSupplier) => {
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const mutauteAdd = useMutation(addStock);
+  const mutauteAdd = useMutation(addSupplier);
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => setOpen(true);
@@ -33,8 +34,6 @@ export const ModalAddStock = ({ children, refetch }: TModalStock) => {
   };
 
   const onSubmit = (body: any) => {
-    body.notes = body.notes || "-";
-
     mutauteAdd.mutate(body, {
       onSuccess: () => {
         handleClose();
@@ -47,68 +46,55 @@ export const ModalAddStock = ({ children, refetch }: TModalStock) => {
     <div>
       {children && cloneElement(children, { onClick: handleOpen })}
       <Modal show={open} onClose={handleClose}>
-        <Modal.Header>Add Stock</Modal.Header>
+        <Modal.Header>Add Supplier</Modal.Header>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body className="grid grid-cols-2 gap-2">
             <div className="col-span-2">
-              <Label htmlFor="number" value="Number" />
+              <Label htmlFor="supplierName" value="Name" />
               <TextInput
-                {...register("number", { required: true })}
-                placeholder="type number here..."
+                {...register("supplierName", { required: true })}
+                placeholder="type name here..."
                 className="my-2"
               />
-              {errors["number"] && (
-                <i className=" text-sm text-red-500">please input number!</i>
+              {errors["supplierName"] && (
+                <i className=" text-sm text-red-500">please input name!</i>
               )}
             </div>
 
             <div className="col-span-2">
-              <Label htmlFor="type" value="Type" />
-              <Select
-                {...register("type", { required: true })}
-                className="my-2"
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  select stock type
-                </option>
-                <option value="In">In</option>
-                <option value="Out">Out</option>
-              </Select>
-              {errors["type"] && (
-                <i className=" text-sm text-red-500">please select type!</i>
-              )}
-            </div>
-
-            <div className="col-span-2">
-              <Label htmlFor="supplierCode" value="Supplier" />
-              <Select
+              <Label htmlFor="supplierCode" value="Code" />
+              <TextInput
                 {...register("supplierCode", { required: true })}
+                placeholder="type code here..."
                 className="my-2"
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  select stock supplier
-                </option>
-                <option value="No-Supp">No-Supp</option>
-                {supplier?.map((v, i) => (
-                  <option key={i} value={v.supplierCode}>
-                    {v.supplierCode} - {v.supplierName}
-                  </option>
-                ))}
-              </Select>
+              />
               {errors["supplierCode"] && (
-                <i className=" text-sm text-red-500">please select supplier!</i>
+                <i className=" text-sm text-red-500">please input code!</i>
               )}
             </div>
 
             <div className="col-span-2">
-              <Label htmlFor="notes" value="Note" />
+              <Label htmlFor="phone" value="Phone" />
               <TextInput
-                {...register("notes")}
-                placeholder="type note here..."
+                {...register("phone", { required: true })}
+                placeholder="type phone here..."
                 className="my-2"
               />
+              {errors["phone"] && (
+                <i className=" text-sm text-red-500">please input phone!</i>
+              )}
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="address" value="Address" />
+              <TextInput
+                {...register("address", { required: true })}
+                placeholder="type address here..."
+                className="my-2"
+              />
+              {errors["address"] && (
+                <i className=" text-sm text-red-500">please input address!</i>
+              )}
             </div>
           </Modal.Body>
           <Modal.Footer>
@@ -133,7 +119,11 @@ export const ModalAddStock = ({ children, refetch }: TModalStock) => {
   );
 };
 
-export const ModalUpdateStock = ({ children, refetch, data }: TModalStock) => {
+export const ModalUpdateSupplier = ({
+  children,
+  refetch,
+  data,
+}: TModalSupplier) => {
   const {
     register,
     reset,
@@ -142,12 +132,12 @@ export const ModalUpdateStock = ({ children, refetch, data }: TModalStock) => {
     formState: { errors },
   } = useForm();
   const [open, setOpen] = useState<boolean>(false);
-  const mutateUpdate = useMutation(updateStock);
+  const mutateUpdate = useMutation(updateSupplier);
 
   const handleOpen = () => {
     if (data) {
       Object.keys(data).forEach((key: string) => {
-        setValue(key, data[key as keyof TStock]);
+        setValue(key, data[key as keyof TSupplier]);
       });
     }
     setOpen(true);
@@ -162,7 +152,7 @@ export const ModalUpdateStock = ({ children, refetch, data }: TModalStock) => {
     body.notes = body.notes || "-";
 
     mutateUpdate.mutate(
-      { id: data?.id, ...body },
+      { supplierCode: data?.supplierCode, body },
       {
         onSuccess: () => {
           handleClose();
@@ -176,62 +166,55 @@ export const ModalUpdateStock = ({ children, refetch, data }: TModalStock) => {
     <div>
       {children && cloneElement(children, { onClick: handleOpen })}
       <Modal show={open} onClose={handleClose}>
-        <Modal.Header>Update Stock</Modal.Header>
+        <Modal.Header>Update Supplier</Modal.Header>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body className="grid grid-cols-2 gap-2">
             <div className="col-span-2">
-              <Label htmlFor="number" value="Number" />
+              <Label htmlFor="supplierName" value="Name" />
               <TextInput
-                {...register("number", { required: true })}
-                placeholder="type number here..."
+                {...register("supplierName", { required: true })}
+                placeholder="type name here..."
                 className="my-2"
               />
-              {errors["number"] && (
-                <i className=" text-sm text-red-500">please input number!</i>
+              {errors["supplierName"] && (
+                <i className=" text-sm text-red-500">please input name!</i>
               )}
             </div>
 
             <div className="col-span-2">
-              <Label htmlFor="type" value="Type" />
-              <Select
-                {...register("type", { required: true })}
-                className="my-2"
-              >
-                <option value="" disabled>
-                  select stock type
-                </option>
-                <option value="In">In</option>
-                <option value="Out">Out</option>
-              </Select>
-              {errors["type"] && (
-                <i className=" text-sm text-red-500">please select type!</i>
-              )}
-            </div>
-
-            <div className="col-span-2">
-              <Label htmlFor="supplierCode" value="Supplier" />
-              <Select
+              <Label htmlFor="supplierCode" value="Code" />
+              <TextInput
                 {...register("supplierCode", { required: true })}
+                placeholder="type code here..."
                 className="my-2"
-              >
-                <option value="" disabled>
-                  select stock supplier
-                </option>
-                <option value="No-Supp">No-Supp</option>
-                <option value="Out">Out</option>
-              </Select>
+              />
               {errors["supplierCode"] && (
-                <i className=" text-sm text-red-500">please select supplier!</i>
+                <i className=" text-sm text-red-500">please input code!</i>
               )}
             </div>
 
             <div className="col-span-2">
-              <Label htmlFor="notes" value="Note" />
+              <Label htmlFor="phone" value="Phone" />
               <TextInput
-                {...register("notes")}
-                placeholder="type note here..."
+                {...register("phone", { required: true })}
+                placeholder="type phone here..."
                 className="my-2"
               />
+              {errors["phone"] && (
+                <i className=" text-sm text-red-500">please input phone!</i>
+              )}
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="address" value="Address" />
+              <TextInput
+                {...register("address", { required: true })}
+                placeholder="type address here..."
+                className="my-2"
+              />
+              {errors["address"] && (
+                <i className=" text-sm text-red-500">please input address!</i>
+              )}
             </div>
           </Modal.Body>
           <Modal.Footer>
@@ -256,15 +239,19 @@ export const ModalUpdateStock = ({ children, refetch, data }: TModalStock) => {
   );
 };
 
-export const ModalDeleteStock = ({ children, data, refetch }: TModalStock) => {
-  const mutateDelete = useMutation(deleteStock);
+export const ModalDeleteSupplier = ({
+  children,
+  data,
+  refetch,
+}: TModalSupplier) => {
+  const mutateDelete = useMutation(deleteSupplier);
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const onSubmit = () => {
-    mutateDelete.mutate(data?.id, {
+    mutateDelete.mutate(data?.supplierCode, {
       onSuccess: () => {
         handleClose();
         refetch();
@@ -276,8 +263,8 @@ export const ModalDeleteStock = ({ children, data, refetch }: TModalStock) => {
     <div>
       {children && cloneElement(children, { onClick: handleOpen })}
       <Modal show={open} onClose={handleClose}>
-        <Modal.Header>Delete Stock</Modal.Header>
-        <Modal.Body>Do You Want to delete this stock?</Modal.Body>
+        <Modal.Header>Delete Supplier</Modal.Header>
+        <Modal.Body>Do You Want to delete this supplier?</Modal.Body>
         <Modal.Footer>
           <Button
             onClick={onSubmit}
