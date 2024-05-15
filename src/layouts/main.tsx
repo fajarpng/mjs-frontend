@@ -16,6 +16,7 @@ import StockTransactionPage from "../pages/stockTransaction";
 import SupplierPage from "../pages/supplir";
 import BundlingPage from "../pages/bundling";
 import BundlingDetailPage from "../pages/bundlingDetail";
+import DetailStockTransactionPage from "../pages/stockTransactionDetail";
 
 const MainLayout = function () {
   return (
@@ -44,11 +45,17 @@ const MainContent = function () {
           <Route path="/" element={<DashboardPage />} index />
           {/* product routes */}
           <Route path="/product" element={<MasterProductPage />} />
-          <Route path="/bundling" element={<BundlingPage />} />
-          <Route path="/bundling/:code" element={<BundlingDetailPage />} />
           <Route path="/category-product" element={<CategoryPage />} />
           <Route path="/stock-opname" element={<StockOpnamePage />} />
+          {/* bundling routes */}
+          <Route path="/bundling" element={<BundlingPage />} />
+          <Route path="/bundling/:code" element={<BundlingDetailPage />} />
+          {/* stock transaction routes */}
           <Route path="/stock-transaction" element={<StockTransactionPage />} />
+          <Route
+            path="/stock-transaction/:id"
+            element={<DetailStockTransactionPage />}
+          />
           <Route path="/supplier" element={<SupplierPage />} />
           {/* user routes */}
           <Route path="/employee" element={<EmployeePage />} />

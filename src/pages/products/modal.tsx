@@ -2,7 +2,7 @@ import { Label, Modal, Select, TextInput, Textarea } from "flowbite-react";
 import type { ReactElement } from "react";
 import { cloneElement, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { addProduct, deleteProduct, updateProduct } from "../../api/product";
 import Button from "../../components/button";
 import { useCategory } from "../../hooks/category";
@@ -19,6 +19,7 @@ interface TModalProduct {
 export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
   const category = useCategory();
   const listCategory = category.data?.data ?? [];
+  const queryCLient = useQueryClient();
   const {
     register,
     reset,
@@ -47,6 +48,8 @@ export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
       onSuccess: () => {
         handleClose();
         refetch();
+        queryCLient.invalidateQueries("product/bundling");
+        queryCLient.invalidateQueries("product/bundling/detail");
       },
     });
   };
@@ -181,6 +184,7 @@ export const ModalUpdateProduct = ({
 }: TModalProduct) => {
   const category = useCategory();
   const listCategory = category.data?.data ?? [];
+  const queryCLient = useQueryClient();
   const {
     register,
     reset,
@@ -220,6 +224,9 @@ export const ModalUpdateProduct = ({
         onSuccess: () => {
           handleClose();
           refetch();
+
+          queryCLient.invalidateQueries("product/bundling");
+          queryCLient.invalidateQueries("product/bundling/detail");
         },
       }
     );

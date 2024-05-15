@@ -1,13 +1,7 @@
-import type { TStock } from "../types";
+import type { TStock, TStockDetail } from "../types";
 import { BASE_URL } from "../utils/config";
-import { apiErrorHandler } from "../utils/helper";
+import { apiErrorHandler, errMsg } from "../utils/helper";
 import axiosApiInstance from "./axiosApiInstance";
-
-const errMsg = (err: any) =>
-  err?.response?.data?.title ||
-  err?.response?.data?.message ||
-  err?.title ||
-  err?.message;
 
 export async function fetchStock(params?: object) {
   return axiosApiInstance
@@ -62,6 +56,48 @@ export async function updateStock({ id, ...body }: any) {
 export async function deleteStock(id?: number) {
   return axiosApiInstance
     .delete(`${BASE_URL}/stock-transaction/${id}`)
+    .then(
+      () => true,
+      (err) => {
+        throw errMsg(err);
+      }
+    )
+    .catch(apiErrorHandler);
+}
+// stock transaction detail
+export async function fetchStockData(stockNumber?: string) {
+  return axiosApiInstance
+    .get<TStockDetail[]>(`${BASE_URL}/stock-transaction-detail/${stockNumber}`)
+    .then(
+      (res) => res.data,
+      (err) => {
+        throw errMsg(err);
+      }
+    )
+    .catch(apiErrorHandler);
+}
+
+export async function addStockDetail({
+  body,
+  type,
+}: {
+  body: object;
+  type?: string;
+}) {
+  return axiosApiInstance
+    .post(`${BASE_URL}/stock-transaction-detail?type=${type}`, body)
+    .then(
+      () => true,
+      (err) => {
+        throw errMsg(err);
+      }
+    )
+    .catch(apiErrorHandler);
+}
+
+export async function deleteStockDetail(id?: number) {
+  return axiosApiInstance
+    .delete(`${BASE_URL}/stock-transaction-detail/${id}`)
     .then(
       () => true,
       (err) => {

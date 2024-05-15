@@ -93,6 +93,14 @@ export interface TStock {
   createdBy: number;
   updatedBy: number;
 }
+
+export interface TStockDetail {
+  id: number;
+  numberTrans: string;
+  qty: number;
+  productCode: string;
+}
+
 // interface supplier
 export interface TSupplier {
   id: number;
