@@ -1,18 +1,14 @@
-import Barcode from "react-barcode";
 import type { TProduct } from "../../types";
 
 export const CardDetail = ({ data }: { data: TProduct }) => {
   return (
     <div className="grid grid-cols-4 gap-2">
-      <div className=" col-span-2">
+      <div className=" col-span-4 flex justify-center bg-gray-100 dark:bg-gray-700">
         <img
           src={data.imageUrl || "/images/empty.png"}
           alt={data.productCode}
-          className="w-full"
+          className="w-full max-w-[500px]"
         />
-      </div>
-      <div className="col-span-2 flex items-center justify-center">
-        <Barcode value={data.productCode} />
       </div>
 
       <div className=" font-semibold">Name</div>

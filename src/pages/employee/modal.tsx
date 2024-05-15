@@ -264,8 +264,7 @@ export const ModalUpdateEmployee = ({
 
       data.birthDate &&
         setValue("birthDate", dayjs(data.birthDate).format("YYYY-MM-DD"));
-      data.joinDate &&
-        setValue("joinDate", dayjs(data.joinDate).format("YYYY-MM-DD"));
+      setValue("joinDate", dayjs(data.joinDate).format("YYYY-MM-DD"));
     }
     setOpen(true);
   };
@@ -419,7 +418,7 @@ export const ModalUpdateEmployee = ({
                       className="my-2"
                     >
                       <option value="staff">Staff</option>
-                      <option value="admin">Admin</option>
+                      <option value="admin">Admin</option>ar
                       <option value="superAdmin">Super Admin</option>
                     </Select>
                     {errors["role"] && (

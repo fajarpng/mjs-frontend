@@ -85,10 +85,12 @@ const MasterProductPage: FC = function () {
                     />
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.productCode} - {v.productName}
+                    <span className=" font-semibold">{v.productCode}</span>
+                    {" - " + v.productName}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.categoryCode} - {v.categoryName}
+                    <span className=" font-semibold">{v.categoryCode}</span>
+                    {" - " + v.categoryName}
                   </td>
                   <td className="w-32 whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.qty}

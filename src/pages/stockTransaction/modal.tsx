@@ -64,6 +64,7 @@ export const ModalAddStock = ({ children, refetch }: TModalStock) => {
               <Select
                 {...register("type", { required: true })}
                 className="my-2"
+                defaultValue=""
               >
                 <option value="" disabled>
                   select stock type
@@ -81,6 +82,7 @@ export const ModalAddStock = ({ children, refetch }: TModalStock) => {
               <Select
                 {...register("supplierCode", { required: true })}
                 className="my-2"
+                defaultValue=""
               >
                 <option value="" disabled>
                   select stock supplier

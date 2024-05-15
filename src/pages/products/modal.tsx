@@ -9,6 +9,7 @@ import { useCategory } from "../../hooks/category";
 import { useDetailProduct } from "../../hooks/product";
 import type { TProduct } from "../../types";
 import { CardDetail } from "./cardDetail";
+import Barcode from "react-barcode";
 
 interface TModalProduct {
   children?: ReactElement;
@@ -286,21 +287,6 @@ export const ModalUpdateProduct = ({
             </div>
 
             <div>
-              <Label htmlFor="qty" value="Quantity" />
-              <TextInput
-                {...register("qty", { required: true })}
-                placeholder="type product quantitiy here..."
-                className="my-2"
-                type="number"
-              />
-              {errors["qty"] && (
-                <i className=" text-sm text-red-500">
-                  please input product quantitiy!
-                </i>
-              )}
-            </div>
-
-            <div>
               <Label htmlFor="qtyMin" value="Quantity Min" />
               <TextInput
                 {...register("qtyMin", { required: true })}
@@ -443,6 +429,50 @@ export const ModalDetailProduct = ({ children, data }: TModalProduct) => {
             className=" bg-red-500 text-white hover:bg-red-600"
           >
             Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+};
+
+export const ModalProductBarcode = ({ children, data }: TModalProduct) => {
+  const { data: _dt, refetch } = useDetailProduct(data?.productId);
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpen = () => {
+    !_dt && refetch();
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
+
+  const detailsProdutct = useMemo(() => _dt ?? data, [_dt, data]);
+
+  return (
+    <div>
+      {children && cloneElement(children, { onClick: handleOpen })}
+      <Modal show={open} onClose={handleClose} size="lg">
+        <Modal.Header>Barcode Product</Modal.Header>
+        <Modal.Body>
+          {detailsProdutct && (
+            <div className="flex items-center justify-center">
+              <Barcode value={detailsProdutct.productCode} />
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            type="submit"
+            className=" bg-blue-500 text-white hover:bg-blue-600"
+          >
+            Print
+          </Button>
+          <Button
+            onClick={handleClose}
+            className=" bg-red-500 text-white hover:bg-red-600"
+          >
+            Cancel
           </Button>
         </Modal.Footer>
       </Modal>

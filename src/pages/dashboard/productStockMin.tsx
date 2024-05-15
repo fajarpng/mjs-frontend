@@ -5,16 +5,8 @@ import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useProductStockMin } from "../../hooks/product";
 import { getQuery } from "../../utils/helper";
-import { ActionMenu } from "./menus";
 
-const header = [
-  "image",
-  "name",
-  "category",
-  "quantity",
-  "quantity min",
-  "action",
-];
+const header = ["image", "name", "category", "quantity", "quantity min"];
 
 const ProductStockMin: FC = function () {
   const query: any = getQuery();
@@ -34,7 +26,9 @@ const ProductStockMin: FC = function () {
             Products Below Minimum Quantity
           </h1>
           {/* filter */}
-          <Button>See More</Button>
+          <a href="product">
+            <Button className="dark:text-white">See More</Button>
+          </a>
         </div>
 
         <InfoScreen
@@ -58,19 +52,18 @@ const ProductStockMin: FC = function () {
                     />
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.productCode} - {v.productName}
+                    <span className=" font-semibold">{v.productCode}</span>
+                    {" - " + v.productName}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.categoryCode} - {v.categoryName}
+                    <span className=" font-semibold">{v.categoryCode}</span>
+                    {" - " + v.categoryName}
                   </td>
                   <td className="w-32 whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.qty}
                   </td>
                   <td className="w-32 whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.qtyMin}
-                  </td>
-                  <td className="w-[50px]">
-                    <ActionMenu data={v} refetch={refetch} />
                   </td>
                 </Table.Row>
               ))}
