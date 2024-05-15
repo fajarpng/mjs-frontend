@@ -25,7 +25,7 @@ export const renderDateTime = (date: string | Date) => {
   return dayjs(date).format("DD-MM-YYYY HH:mm");
 };
 
-export const renderDate = (date: string) => {
+export const renderDate = (date: string | Date) => {
   if (!date) return "Invalid Date";
   return dayjs(date).format("dddd, DD-MM-YYYY");
 };
