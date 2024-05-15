@@ -4,6 +4,7 @@ import {
   fetchProduct,
   fetchProductBundling,
   fetchProductBundlingDetail,
+  fetchProductStockMin,
 } from "../api/product";
 
 export const useProduct = (query?: object) => {
@@ -14,6 +15,12 @@ export const useDetailProduct = (id?: number) => {
   return useQuery(["product/detail", id], () => fetchDetailProduct(id), {
     enabled: false,
   });
+};
+
+export const useProductStockMin = (query?: object) => {
+  return useQuery(["product/stockMin", query], () =>
+    fetchProductStockMin(query)
+  );
 };
 
 export const useProductBundling = () => {

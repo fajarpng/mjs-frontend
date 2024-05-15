@@ -4,7 +4,6 @@ import { Route, Routes, useNavigate } from "react-router";
 import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
 import { useAuth } from "../hooks/auth";
-import DashboardPage from "../pages";
 import PageNotFound from "../pages/PageNotFound";
 import SignInPage from "../pages/authentication/sign-in";
 import CategoryPage from "../pages/category";
@@ -17,6 +16,9 @@ import SupplierPage from "../pages/supplir";
 import BundlingPage from "../pages/bundling";
 import BundlingDetailPage from "../pages/bundlingDetail";
 import DetailStockTransactionPage from "../pages/stockTransactionDetail";
+import DashboardPage from "../pages/dashboard";
+
+// import DashboardPage from "../pages";
 
 const MainLayout = function () {
   return (
