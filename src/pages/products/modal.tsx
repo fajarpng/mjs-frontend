@@ -40,7 +40,7 @@ export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
     data.barcode = data.productCode;
     data.categoryCode = category[0];
     data.categoryName = category[1];
-    data.type = "string";
+    data.type = "1";
     delete data.category;
 
     mutateAdd.mutate(data, {
@@ -212,7 +212,6 @@ export const ModalUpdateProduct = ({
 
     body.categoryCode = category[0];
     body.categoryName = category[1];
-    body.type = "string";
     delete body.category;
 
     mutateUpdate.mutate(

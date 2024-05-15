@@ -64,3 +64,37 @@ export async function deleteProduct(id?: number) {
     )
     .catch(apiErrorHandler);
 }
+// product bundling
+export async function fetchProductBundling(params?: object) {
+  return axiosApiInstance
+    .get<{ data: TProduct[]; meta: TPageInfo }>(
+      `${BASE_URL}/products/product/bundling`,
+      {
+        params,
+      }
+    )
+    .then(
+      (res) => ({ data: res.data.data, meta: res.data.meta }),
+      (err) => {
+        throw err?.response?.data?.message || err?.message;
+      }
+    )
+    .catch(apiErrorHandler);
+}
+
+export async function fetchProductBundlingDetail(params?: object) {
+  return axiosApiInstance
+    .get<{ data: TProduct[]; meta: TPageInfo }>(
+      `${BASE_URL}/products/product/bundling-detail`,
+      {
+        params,
+      }
+    )
+    .then(
+      (res) => ({ data: res.data.data, meta: res.data.meta }),
+      (err) => {
+        throw err?.response?.data?.message || err?.message;
+      }
+    )
+    .catch(apiErrorHandler);
+}

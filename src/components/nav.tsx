@@ -46,8 +46,8 @@ export const nav: TNav[] = [
   {
     type: "item",
     icon: FaBoxes,
-    name: "Stock Opnames",
-    key: "/stock-opname",
+    name: "Bundling",
+    key: "/bundling",
   },
   {
     type: "item",

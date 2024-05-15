@@ -103,3 +103,26 @@ export interface TSupplier {
   createdAt: Date;
   updatedAt: Date;
 }
+// interface budel
+export interface TBundling {
+  id: number;
+  bundlingCode: string;
+  createdAt: Date;
+  updatedAt: Date;
+  createdBy?: number;
+  updatedBy?: number;
+}
+// interface bundel detail
+export interface TBundlingDetail {
+  bundlingCode: string;
+  qty: number;
+  details: TBundleDetail[];
+}
+
+export interface TBundleDetail {
+  id: number;
+  bundlingCode: string;
+  componentCode: string;
+  qty: number;
+}
+//

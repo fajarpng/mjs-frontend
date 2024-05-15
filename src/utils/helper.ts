@@ -35,3 +35,10 @@ export function getQuery() {
   const query = qs.parse(locationSearch, { ignoreQueryPrefix: true });
   return query;
 }
+
+// urgent only
+export const errMsg = (err: any) =>
+  err?.response?.data?.title ||
+  err?.response?.data?.message ||
+  err?.title ||
+  err?.message;

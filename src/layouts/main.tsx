@@ -14,6 +14,8 @@ import MasterProductPage from "../pages/products";
 import StockOpnamePage from "../pages/stockOpnames";
 import StockTransactionPage from "../pages/stockTransaction";
 import SupplierPage from "../pages/supplir";
+import BundlingPage from "../pages/bundling";
+import BundlingDetailPage from "../pages/bundlingDetail";
 
 const MainLayout = function () {
   return (
@@ -42,6 +44,8 @@ const MainContent = function () {
           <Route path="/" element={<DashboardPage />} index />
           {/* product routes */}
           <Route path="/product" element={<MasterProductPage />} />
+          <Route path="/bundling" element={<BundlingPage />} />
+          <Route path="/bundling/:code" element={<BundlingDetailPage />} />
           <Route path="/category-product" element={<CategoryPage />} />
           <Route path="/stock-opname" element={<StockOpnamePage />} />
           <Route path="/stock-transaction" element={<StockTransactionPage />} />
