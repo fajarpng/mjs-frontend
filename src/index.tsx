@@ -34,7 +34,7 @@ const queryClient = new QueryClient({
 root.render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Flowbite theme={{ theme }}>
+      <Flowbite theme={{ theme, dark: false }}>
         <BrowserRouter>
           <Routes>
             <Route path="/sign-in" element={<SignInPage />} />
