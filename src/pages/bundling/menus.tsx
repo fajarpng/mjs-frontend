@@ -1,7 +1,7 @@
-import { FaEye, FaPen, FaTrash } from "react-icons/fa";
+import { FaEye, FaTrash } from "react-icons/fa";
 import Button from "../../components/button";
 import type { TBundling } from "../../types";
-import { ModalDeleteBundling, ModalUpdateBundling } from "./modal";
+import { ModalDeleteBundling } from "./modal";
 
 interface TAction {
   data: TBundling;
@@ -16,11 +16,11 @@ export const ActionMenu = ({ data, refetch }: TAction) => {
           <FaEye />
         </Button>
       </a>
-      <ModalUpdateBundling data={data} refetch={refetch}>
+      {/* <ModalUpdateBundling data={data} refetch={refetch}>
         <Button className="border-2 border-green-500 p-2 text-green-500 hover:bg-green-500 hover:text-white">
           <FaPen />
         </Button>
-      </ModalUpdateBundling>
+      </ModalUpdateBundling> */}
       <ModalDeleteBundling data={data} refetch={refetch}>
         <Button className="border-2 border-red-500 p-2 text-red-500 hover:bg-red-500 hover:text-white">
           <FaTrash />
