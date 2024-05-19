@@ -1,10 +1,13 @@
-import { Navbar } from "flowbite-react";
-import type { FC } from "react";
+import { DarkThemeToggle, Navbar, useThemeMode } from "flowbite-react";
+import { type FC } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { useAuth } from "../hooks/auth";
 
 const ExampleNavbar: FC = function () {
   const { user } = useAuth();
+
+  const [mode, , toggleMode] = useThemeMode(true);
+
   return (
     <Navbar fluid>
       <div className="w-full p-3 lg:px-5 lg:pl-3">
@@ -29,6 +32,13 @@ const ExampleNavbar: FC = function () {
             <div className=" rounded-full bg-gray-700 text-white dark:bg-gray-700 dark:text-gray-100">
               <AiOutlineUser size={30} />
             </div>
+            <DarkThemeToggle
+              onClick={() => {
+                toggleMode();
+                const newMode = mode == "dark" ? "light" : "dark";
+                localStorage.setItem("theme", newMode);
+              }}
+            />
           </div>
         </div>
       </div>
