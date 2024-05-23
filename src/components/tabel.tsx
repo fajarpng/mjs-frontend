@@ -61,11 +61,13 @@ export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
   }, [meta]);
 
   const onNextPage = () => {
-    setQuery({ page: meta.pageIndex + 1 });
+    setQuery({ pageIndex: meta.pageIndex + 1 });
   };
   const onPrevPage = () => {
-    setQuery({ page: meta.pageIndex - 1 });
+    setQuery({ pageIndex: meta.pageIndex - 1 });
   };
+
+  console.log(meta.pageCount, meta.pageIndex);
 
   return (
     <div className="flex justify-between border-t border-gray-200 pt-4 dark:border-gray-700">
@@ -80,7 +82,7 @@ export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
         </Button>
         <Button
           onClick={onNextPage}
-          disabled={meta.pageIndex === meta.pageCount}
+          disabled={+meta.pageIndex === +meta.pageCount}
           className="mr-2 bg-transparent text-black hover:bg-gray-100 disabled:text-gray-300 dark:text-white dark:hover:bg-gray-700"
         >
           <span className="sr-only">Next page</span>

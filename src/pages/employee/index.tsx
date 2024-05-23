@@ -29,7 +29,7 @@ const EmployeePage: FC = function () {
     <div>
       <Card className="m-1">
         {/* header */}
-        <div className="mb-1 w-full">
+        <div className="w-full">
           {/* title */}
           <h1 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
             Employee

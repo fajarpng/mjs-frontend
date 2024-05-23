@@ -1,5 +1,6 @@
 import {
   FaBox,
+  FaBoxOpen,
   FaBoxes,
   FaClipboardList,
   FaIndustry,
@@ -46,6 +47,12 @@ export const nav: TNav[] = [
   {
     type: "item",
     icon: FaBoxes,
+    name: "Stock Opname",
+    key: "/stock-opname",
+  },
+  {
+    type: "item",
+    icon: FaBoxOpen,
     name: "Bundling",
     key: "/bundling",
   },

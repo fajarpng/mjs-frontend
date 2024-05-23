@@ -115,3 +115,17 @@ export async function fetchProductStockMin(params?: object) {
     )
     .catch(apiErrorHandler);
 }
+// upload iamge
+export async function uploadImage(body: any) {
+  return axiosApiInstance
+    .post(`${BASE_URL}/products/product/upload`, {
+      body,
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        throw err?.response?.data?.message || err?.message;
+      }
+    )
+    .catch(apiErrorHandler);
+}

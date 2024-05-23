@@ -133,4 +133,11 @@ export interface TBundleDetail {
   componentCode: string;
   qty: number;
 }
-//
+//stock opnames
+
+export interface TStockOpname {
+  id: number;
+  bundlingCode: string;
+  componentCode: string;
+  qty: number;
+}
