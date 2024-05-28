@@ -5,19 +5,11 @@ import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useStockOpname } from "../../hooks/stockOpname";
-import { getQuery } from "../../utils/helper";
-import { ModalAddEmployee } from "./modal";
+import { getQuery, renderDate } from "../../utils/helper";
+import ActionMenu from "./menus";
+import { ModalAddStockOpname } from "./modal";
 
-const header = [
-  "nip",
-  "nik",
-  "name",
-  "email",
-  "phone",
-  "birth",
-  "join",
-  "action",
-];
+const header = ["code", "status", "note", "created", "updated", "action"];
 
 const EmployeePage: FC = function () {
   const query: any = getQuery();
@@ -33,14 +25,14 @@ const EmployeePage: FC = function () {
             Stock Opnames
           </h1>
           {/* filter */}
-          <ModalAddEmployee refetch={refetch}>
+          <ModalAddStockOpname refetch={refetch}>
             <Button
               className=" bg-blue-500 text-white hover:bg-blue-600"
               leftIcon={<FaPlus />}
             >
               Add New
             </Button>
-          </ModalAddEmployee>
+          </ModalAddStockOpname>
         </div>
       </Card>
       {/* tabel */}
@@ -60,26 +52,24 @@ const EmployeePage: FC = function () {
                   className="hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={i}
                 >
-                  <td className="p-2">{v.id}</td>
-                  {/* <td className="p-2">{v.nik}</td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.name}
+                    {v.code}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.email}
+                    {v.status}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.phone}
+                    {v.note}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {renderDate(v.birthDate)}
+                    {renderDate(v.createdAt)}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {renderDate(v.joinDate)}
+                    {renderDate(v.updatedAt)}
                   </td>
                   <td className="w-[50px]">
                     <ActionMenu data={v} refetch={refetch} />
-                  </td> */}
+                  </td>
                 </Table.Row>
               ))}
             </Table.Body>

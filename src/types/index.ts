@@ -134,10 +134,26 @@ export interface TBundleDetail {
   qty: number;
 }
 //stock opnames
-
 export interface TStockOpname {
   id: number;
-  bundlingCode: string;
-  componentCode: string;
+  code: string;
+  status: string;
+  note: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt?: Date;
+  isDeleted: boolean;
+  createdBy?: number;
+  updatedBy?: number;
+  deletedBy?: number;
+  details: TDetailOpname[];
+}
+
+export interface TDetailOpname {
+  id: number;
+  opnameId: number;
+  productId: number;
   qty: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
