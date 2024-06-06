@@ -14,8 +14,8 @@ export const CardDetail = ({ data }: { data: TProduct }) => {
       <div className=" font-semibold">Name</div>
       <div className="col-span-3">{data.productName}</div>
 
-      <div className=" font-semibold">Category</div>
-      <div className="col-span-3">{data.categoryName}</div>
+      <div className=" font-semibold">Rak</div>
+      <div className="col-span-3">{data.rakName}</div>
 
       <div className=" font-semibold">Quantity</div>
       <div className="col-span-3">{data.qty}</div>
