@@ -5,19 +5,11 @@ import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useStock } from "../../hooks/stockTransaction";
-import { getQuery, renderDateTime } from "../../utils/helper";
+import { getQuery } from "../../utils/helper";
 import { ActionMenu } from "./menus";
 import { ModalAddStock } from "./modal";
 
-const header = [
-  "id",
-  "type",
-  "supplier",
-  "notes",
-  "created",
-  "updated",
-  "action",
-];
+const header = ["id", "type", "supplier", "notes", "action"];
 
 const StockTransactionPage: FC = function () {
   const query: any = getQuery();
@@ -70,13 +62,6 @@ const StockTransactionPage: FC = function () {
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.notes}
-                  </td>
-                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {renderDateTime(v.createdAt)}
-                  </td>
-                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.updatedBy}
-                    {renderDateTime(v.updatedAt)}
                   </td>
                   <td className="w-[50px]">
                     <ActionMenu data={v} refetch={refetch} />

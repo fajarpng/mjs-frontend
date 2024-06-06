@@ -5,11 +5,11 @@ import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useStockOpname } from "../../hooks/stockOpname";
-import { getQuery, renderDate } from "../../utils/helper";
+import { getQuery } from "../../utils/helper";
 import ActionMenu from "./menus";
 import { ModalAddStockOpname } from "./modal";
 
-const header = ["code", "status", "note", "created", "updated", "action"];
+const header = ["code", "status", "note", "action"];
 
 const EmployeePage: FC = function () {
   const query: any = getQuery();
@@ -60,12 +60,6 @@ const EmployeePage: FC = function () {
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.note}
-                  </td>
-                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {renderDate(v.createdAt)}
-                  </td>
-                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {renderDate(v.updatedAt)}
                   </td>
                   <td className="w-[50px]">
                     <ActionMenu data={v} refetch={refetch} />

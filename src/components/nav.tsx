@@ -39,8 +39,8 @@ export const nav: TNav[] = [
       },
       {
         type: "item",
-        key: "/category-product",
-        name: "Category Product",
+        key: "/rak-product",
+        name: "Rak Product",
       },
     ],
   },

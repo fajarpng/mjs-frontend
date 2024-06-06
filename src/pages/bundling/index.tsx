@@ -5,15 +5,19 @@ import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
 import TabelComponent from "../../components/tabel";
 import { useBundling } from "../../hooks/bundling";
-import { getQuery, renderDateTime } from "../../utils/helper";
+import { getQuery } from "../../utils/helper";
 import { ActionMenu } from "./menus";
 import { ModalAddBundling } from "./modal";
 
-const header = ["id", "code", "created", "updated", "action"];
+const header = ["id", "code", "action"];
 
 const BundlingPage: FC = function () {
   const query: any = getQuery();
-  const { data, refetch, error, status } = useBundling(query);
+  const { data, refetch, error, status } = useBundling({
+    pageIndex: 1,
+    pageSize: 10,
+    ...query,
+  });
 
   return (
     <div>
@@ -41,12 +45,12 @@ const BundlingPage: FC = function () {
         <InfoScreen
           status={status}
           reload={refetch}
-          dataLength={data?.length}
+          dataLength={data?.data.length}
           error={error}
         >
-          <TabelComponent header={header}>
+          <TabelComponent header={header} pagination={data?.meta}>
             <Table.Body>
-              {data?.map((v, i) => (
+              {data?.data.map((v, i) => (
                 <Table.Row
                   className="hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={i}
@@ -56,13 +60,6 @@ const BundlingPage: FC = function () {
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.bundlingCode}
-                  </td>
-                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {renderDateTime(v.createdAt)}
-                  </td>
-                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.updatedBy}
-                    {renderDateTime(v.updatedAt)}
                   </td>
                   <td className="w-[50px]">
                     <ActionMenu data={v} refetch={refetch} />

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { addProduct, deleteProduct, updateProduct } from "../../api/product";
 import Button from "../../components/button";
-import { useCategory } from "../../hooks/category";
+import { useRak } from "../../hooks/rak";
 import { useDetailProduct } from "../../hooks/product";
 import type { TProduct } from "../../types";
 import { CardDetail } from "./cardDetail";
@@ -19,8 +19,8 @@ interface TModalProduct {
 }
 
 export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
-  const category = useCategory();
-  const listCategory = category.data?.data ?? [];
+  const rak = useRak({ pageIndex: 1, pageSize: 1000 });
+  const listRak = rak.data?.data ?? [];
   const queryCLient = useQueryClient();
   const {
     register,
@@ -37,14 +37,13 @@ export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
     setOpen(false);
   };
   const onSubmit = (data: any) => {
-    const category = data.category.split("|");
+    const rak = data.rak.split("|");
 
     data.qty = 0;
     data.barcode = data.productCode;
-    data.categoryCode = category[0];
-    data.categoryName = category[1];
+    data.rakCode = rak[0];
     data.type = "1";
-    delete data.category;
+    delete data.rak;
 
     mutateAdd.mutate(data, {
       onSuccess: () => {
@@ -63,24 +62,6 @@ export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
         <Modal.Header>Add Product</Modal.Header>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body className="grid grid-cols-2 gap-2">
-            {/* <div className="col-span-2">
-              <InputImage />
-            </div> */}
-
-            <div className="col-span-2">
-              <Label htmlFor="imageUrl" value="Image Url" />
-              <TextInput
-                {...register("imageUrl", { required: true })}
-                placeholder="type image url here..."
-                className="my-2"
-              />
-              {errors["imageUrl"] && (
-                <i className=" text-sm text-red-500">
-                  please input product image url!
-                </i>
-              )}
-            </div>
-
             <div className="col-span-2">
               <Label htmlFor="productName" value="Product Name" />
               <TextInput
@@ -125,26 +106,23 @@ export const ModalAddProduct = ({ children, refetch }: TModalProduct) => {
             </div>
 
             <div className="col-span-2">
-              <Label htmlFor="category" value="Category" />
+              <Label htmlFor="rak" value="Rak" />
               <Select
-                {...register("category", { required: true })}
+                {...register("rak", { required: true })}
                 className="my-2"
                 defaultValue=""
               >
                 <option value="" disabled>
-                  select product category
+                  select product rak
                 </option>
-                {listCategory.map((v) => (
-                  <option
-                    key={v.categoryCode}
-                    value={`${v.categoryCode}|${v.categoryName}`}
-                  >
-                    {v.categoryCode} - {v.categoryName}
+                {listRak.map((v) => (
+                  <option key={v.rakCode} value={`${v.rakCode}|${v.rakName}`}>
+                    {v.rakCode} - {v.rakName}
                   </option>
                 ))}
               </Select>
-              {errors["category"] && (
-                <i className=" text-sm text-red-500">please select category!</i>
+              {errors["rak"] && (
+                <i className=" text-sm text-red-500">please select rak!</i>
               )}
             </div>
 
@@ -184,8 +162,8 @@ export const ModalUpdateProduct = ({
   refetch,
   data,
 }: TModalProduct) => {
-  const category = useCategory();
-  const listCategory = category.data?.data ?? [];
+  const rak = useRak({ pageIndex: 1, pageSize: 1000 });
+  const listRak = rak.data?.data ?? [];
   const queryCLient = useQueryClient();
   const {
     register,
@@ -203,7 +181,7 @@ export const ModalUpdateProduct = ({
         setValue(key, data[key as keyof TProduct]);
       });
 
-      setValue("category", `${data.categoryCode}|${data.categoryName}`);
+      setValue("rak", `${data.rakCode}|${data.rakName}`);
     }
     setOpen(true);
   };
@@ -214,11 +192,11 @@ export const ModalUpdateProduct = ({
   };
 
   const onSubmit = (body: any) => {
-    const category = body.category.split("|");
+    const rak = body.rak.split("|");
 
-    body.categoryCode = category[0];
-    body.categoryName = category[1];
-    delete body.category;
+    body.rakCode = rak[0];
+    body.categoryCode = "NL";
+    delete body.rak;
 
     mutateUpdate.mutate(
       { id: data?.productId, ...body },
@@ -241,24 +219,6 @@ export const ModalUpdateProduct = ({
         <Modal.Header>Update Product</Modal.Header>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body className="grid grid-cols-2 gap-2">
-            {/* <div className="col-span-2">
-              <InputImage />
-            </div> */}
-
-            <div className="col-span-2">
-              <Label htmlFor="imageUrl" value="Image Url" />
-              <TextInput
-                {...register("imageUrl", { required: true })}
-                placeholder="type image url here..."
-                className="my-2"
-              />
-              {errors["imageUrl"] && (
-                <i className=" text-sm text-red-500">
-                  please input product image url!
-                </i>
-              )}
-            </div>
-
             <div className="col-span-2">
               <Label htmlFor="productName" value="Product Name" />
               <TextInput
@@ -303,25 +263,19 @@ export const ModalUpdateProduct = ({
             </div>
 
             <div className="col-span-2">
-              <Label htmlFor="category" value="Category" />
-              <Select
-                {...register("category", { required: true })}
-                className="my-2"
-              >
+              <Label htmlFor="rak" value="Rak" />
+              <Select {...register("rak", { required: true })} className="my-2">
                 <option value="" disabled>
-                  select product category
+                  select product rak
                 </option>
-                {listCategory.map((v) => (
-                  <option
-                    key={v.categoryCode}
-                    value={`${v.categoryCode}|${v.categoryName}`}
-                  >
-                    {v.categoryCode} - {v.categoryName}
+                {listRak.map((v) => (
+                  <option key={v.rakCode} value={`${v.rakCode}|${v.rakName}`}>
+                    {v.rakCode} - {v.rakName}
                   </option>
                 ))}
               </Select>
-              {errors["category"] && (
-                <i className=" text-sm text-red-500">please select category!</i>
+              {errors["rak"] && (
+                <i className=" text-sm text-red-500">please select rak!</i>
               )}
             </div>
 

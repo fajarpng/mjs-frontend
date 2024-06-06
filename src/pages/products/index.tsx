@@ -9,14 +9,7 @@ import { getQuery } from "../../utils/helper";
 import { ActionMenu } from "./menus";
 import { ModalAddProduct } from "./modal";
 
-const header = [
-  "image",
-  "name",
-  "category",
-  "quantity",
-  "quantity min",
-  "action",
-];
+const header = ["name", "rak", "quantity", "quantity min", "action"];
 
 const MasterProductPage: FC = function () {
   const query: any = getQuery();
@@ -77,20 +70,13 @@ const MasterProductPage: FC = function () {
                   className="hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={i}
                 >
-                  <td className="w-32 p-2">
-                    <img
-                      src={v.imageUrl || "/images/empty.png"}
-                      alt={v.productCode}
-                      className="w-full"
-                    />
-                  </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     <span className=" font-semibold">{v.productCode}</span>
                     {" - " + v.productName}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    <span className=" font-semibold">{v.categoryCode}</span>
-                    {" - " + v.categoryName}
+                    <span className=" font-semibold">{v.rakCode}</span>
+                    {" - " + v.rakName}
                   </td>
                   <td className="w-32 whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.qty}

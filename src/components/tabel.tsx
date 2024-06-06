@@ -67,8 +67,6 @@ export const PaginationTabel: FC<{ meta: TPageInfo }> = function ({ meta }) {
     setQuery({ pageIndex: meta.pageIndex - 1 });
   };
 
-  console.log(meta.pageCount, meta.pageIndex);
-
   return (
     <div className="flex justify-between border-t border-gray-200 pt-4 dark:border-gray-700">
       <div className="mb-4 flex items-center sm:mb-0">

@@ -20,8 +20,8 @@ export interface TProduct {
   productId: number;
   productCode: string;
   productName: string;
-  categoryCode: string;
-  categoryName: string;
+  rakCode: string;
+  rakName: string;
   barcode: string;
   description: string;
   qty: number;
@@ -67,6 +67,16 @@ export interface TCategory {
   updatedAt: Date;
   deletedAt: Date;
 }
+// interface rak
+export interface TRak {
+  id: number;
+  rakCode: string;
+  rakName: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // interface stock
 export interface TStock {
   id: number;

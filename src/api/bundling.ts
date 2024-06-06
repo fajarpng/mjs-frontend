@@ -1,17 +1,17 @@
-import type { TBundling, TBundlingDetail } from "../types";
+import type { TBundling, TBundlingDetail, TPageInfo } from "../types";
 import { BASE_URL } from "../utils/config";
 import { apiErrorHandler, errMsg } from "../utils/helper";
 import axiosApiInstance from "./axiosApiInstance";
 
 export async function fetchBundling(params?: object) {
   return axiosApiInstance
-    .get<TBundling[]>(`${BASE_URL}/bundling`, {
+    .get<{ data: TBundling[]; meta: TPageInfo }>(`${BASE_URL}/bundling`, {
       params,
     })
     .then(
-      (res) => res.data,
+      (res) => ({ data: res.data.data, meta: res.data.meta }),
       (err) => {
-        throw errMsg(err);
+        throw err?.response?.data?.message || err?.message;
       }
     )
     .catch(apiErrorHandler);

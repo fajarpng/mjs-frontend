@@ -6,7 +6,7 @@ import TabelComponent from "../../components/tabel";
 import { useProductStockMin } from "../../hooks/product";
 import { getQuery } from "../../utils/helper";
 
-const header = ["image", "name", "category", "quantity", "quantity min"];
+const header = ["name", "rak", "quantity", "quantity min"];
 
 const ProductStockMin: FC = function () {
   const query: any = getQuery();
@@ -44,20 +44,13 @@ const ProductStockMin: FC = function () {
                   className="hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={i}
                 >
-                  <td className="w-32 p-2">
-                    <img
-                      src={v.imageUrl || "/images/empty.png"}
-                      alt={v.productCode}
-                      className="w-full"
-                    />
-                  </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     <span className=" font-semibold">{v.productCode}</span>
                     {" - " + v.productName}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    <span className=" font-semibold">{v.categoryCode}</span>
-                    {" - " + v.categoryName}
+                    <span className=" font-semibold">{v.rakCode}</span>
+                    {" - " + v.rakName}
                   </td>
                   <td className="w-32 whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.qty}

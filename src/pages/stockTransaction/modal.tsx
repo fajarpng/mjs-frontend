@@ -51,18 +51,6 @@ export const ModalAddStock = ({ children, refetch }: TModalStock) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body className="grid grid-cols-2 gap-2">
             <div className="col-span-2">
-              <Label htmlFor="number" value="Number" />
-              <TextInput
-                {...register("number", { required: true })}
-                placeholder="type number here..."
-                className="my-2"
-              />
-              {errors["number"] && (
-                <i className=" text-sm text-red-500">please input number!</i>
-              )}
-            </div>
-
-            <div className="col-span-2">
               <Label htmlFor="type" value="Type" />
               <Select
                 {...register("type", { required: true })}
@@ -179,18 +167,6 @@ export const ModalUpdateStock = ({ children, refetch, data }: TModalStock) => {
         <Modal.Header>Update Stock</Modal.Header>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body className="grid grid-cols-2 gap-2">
-            <div className="col-span-2">
-              <Label htmlFor="number" value="Number" />
-              <TextInput
-                {...register("number", { required: true })}
-                placeholder="type number here..."
-                className="my-2"
-              />
-              {errors["number"] && (
-                <i className=" text-sm text-red-500">please input number!</i>
-              )}
-            </div>
-
             <div className="col-span-2">
               <Label htmlFor="type" value="Type" />
               <Select
