@@ -34,7 +34,7 @@ export const ModalAddBundling = ({ children, refetch }: TModalBundling) => {
   };
 
   const onSubmit = (body: any) => {
-    body.bundlingCode = query.code;
+    body.numberTrans = query.code;
 
     mutauteAdd.mutate(body, {
       onSuccess: () => {
@@ -63,7 +63,7 @@ export const ModalAddBundling = ({ children, refetch }: TModalBundling) => {
                 </option>
                 {componentCode?.data.map((v) => (
                   <option key={v.productCode} value={v.productCode}>
-                    {v.productCode}
+                    {v.productCode} - {v.productName}
                   </option>
                 ))}
               </Select>

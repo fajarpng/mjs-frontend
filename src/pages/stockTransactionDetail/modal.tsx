@@ -1,4 +1,4 @@
-import { Label, Modal, TextInput } from "flowbite-react";
+import { Label, Modal, Select, TextInput } from "flowbite-react";
 import type { ReactElement } from "react";
 import { cloneElement, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import { useMutation } from "react-query";
 import { addStockDetail, deleteStockDetail } from "../../api/stockTransaction";
 import Button from "../../components/button";
 import type { TStock, TStockDetail } from "../../types";
+import { useProductStockTransaction } from "../../hooks/product";
 
 interface TModalStock {
   children?: ReactElement;
@@ -21,6 +22,8 @@ export const ModalAddStock = ({ children, refetch, stock }: TModalStock) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { data: componentCode } = useProductStockTransaction();
+
   const mutauteAdd = useMutation(addStockDetail);
   const [open, setOpen] = useState<boolean>(false);
 
@@ -48,16 +51,25 @@ export const ModalAddStock = ({ children, refetch, stock }: TModalStock) => {
     <div>
       {children && cloneElement(children, { onClick: handleOpen })}
       <Modal show={open} onClose={handleClose}>
-        <Modal.Header>Add Stock</Modal.Header>
+        <Modal.Header>Add Product</Modal.Header>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body className="grid grid-cols-2 gap-2">
             <div className="col-span-2">
-              <Label htmlFor="productCode" value="Product Code" />
-              <TextInput
+              <Label htmlFor="productCode" value="Select Product" />
+              <Select
                 {...register("productCode", { required: true })}
-                placeholder="type product code here..."
                 className="my-2"
-              />
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  select product
+                </option>
+                {componentCode?.data.map((v) => (
+                  <option key={v.productCode} value={v.productCode}>
+                    {v.productName}
+                  </option>
+                ))}
+              </Select>
               {errors["productCode"] && (
                 <i className=" text-sm text-red-500">
                   please input product code!
@@ -119,8 +131,8 @@ export const ModalDeleteStock = ({ children, data, refetch }: TModalStock) => {
     <div>
       {children && cloneElement(children, { onClick: handleOpen })}
       <Modal show={open} onClose={handleClose}>
-        <Modal.Header>Delete Stock</Modal.Header>
-        <Modal.Body>Do You Want to delete this stock?</Modal.Body>
+        <Modal.Header>Delete Product</Modal.Header>
+        <Modal.Body>Do You Want to delete this product?</Modal.Body>
         <Modal.Footer>
           <Button
             onClick={onSubmit}

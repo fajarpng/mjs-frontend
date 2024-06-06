@@ -15,10 +15,16 @@ export const useDetailStock = (id?: number) => {
   });
 };
 
-export const useStockData = (stockNumber?: string) => {
+export const useStockData = ({
+  query,
+  stockNumber,
+}: {
+  query?: object;
+  stockNumber?: string;
+}) => {
   return useQuery(
     ["stock/data", stockNumber],
-    () => fetchStockData(stockNumber),
+    () => fetchStockData(stockNumber, query),
     {
       enabled: !!stockNumber,
     }

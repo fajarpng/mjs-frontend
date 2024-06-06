@@ -98,6 +98,23 @@ export async function fetchProductBundlingDetail(params?: object) {
     )
     .catch(apiErrorHandler);
 }
+
+export async function fetchProductTransaction(params?: object) {
+  return axiosApiInstance
+    .get<{ data: TProduct[]; meta: TPageInfo }>(
+      `${BASE_URL}/products/stock-transaction`,
+      {
+        params,
+      }
+    )
+    .then(
+      (res) => ({ data: res.data.data, meta: res.data.meta }),
+      (err) => {
+        throw err?.response?.data?.message || err?.message;
+      }
+    )
+    .catch(apiErrorHandler);
+}
 // stock min for dashboard
 export async function fetchProductStockMin(params?: object) {
   return axiosApiInstance

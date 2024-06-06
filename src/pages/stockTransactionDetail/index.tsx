@@ -1,6 +1,6 @@
 import { Card, Table } from "flowbite-react";
 import { type FC } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaPrint, FaTrash } from "react-icons/fa";
 import { useParams } from "react-router";
 import Button from "../../components/button";
 import { InfoScreen } from "../../components/infoScreen";
@@ -8,6 +8,7 @@ import TabelComponent from "../../components/tabel";
 import { useDetailStock, useStockData } from "../../hooks/stockTransaction";
 import { ActionMenu } from "./menus";
 import { ModalAddStock } from "./modal";
+import { renderDate } from "../../utils/helper";
 
 const header = [
   "id",
@@ -25,7 +26,14 @@ const DetailStockTransactionPage: FC = function () {
     refetch: refetchData,
     error,
     status,
-  } = useStockData(stock?.number);
+  } = useStockData({
+    stockNumber: stock?.number,
+    query: {
+      pageIndex: 1,
+      pageSize: 10,
+      ...query,
+    },
+  });
 
   const refetch = () => {
     refetchData();
@@ -36,19 +44,51 @@ const DetailStockTransactionPage: FC = function () {
     <div>
       <Card className="m-1">
         {/* header */}
-        <div className="flex w-full items-center justify-between">
+        <div className="w-full">
           {/* title */}
-          <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-            Detail Transaction
-          </h1>
-          <ModalAddStock refetch={refetchData} stock={stock}>
+          {stock && (
+            <div className="mb-4 grid grid-cols-4 gap-4 text-center dark:text-white">
+              <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-700">
+                <p className="mb-2 font-bold">Transaction Number</p>
+                {stock.number}
+              </div>
+              <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-700">
+                <p className="mb-2 font-bold">Type</p>
+                {stock.type}
+              </div>
+              <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-700">
+                <p className="mb-2 font-bold">Date</p>
+                {renderDate(stock.createdAt)}
+              </div>
+
+              <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-700">
+                <p className="mb-2 font-bold">Status</p>
+                {/* {stock.status} */}
+              </div>
+            </div>
+          )}
+          <div className="flex justify-end gap-2">
+            <ModalAddStock refetch={refetchData} stock={stock}>
+              <Button
+                className=" bg-blue-500 text-white hover:bg-blue-600"
+                leftIcon={<FaPlus />}
+              >
+                Add Product
+              </Button>
+            </ModalAddStock>
             <Button
-              className=" bg-blue-500 text-white hover:bg-blue-600"
-              leftIcon={<FaPlus />}
+              className=" bg-red-500 text-white hover:bg-red-600"
+              leftIcon={<FaTrash />}
             >
-              Add New
+              Delete
             </Button>
-          </ModalAddStock>
+            <Button
+              className=" bg-yellow-500 text-white hover:bg-yellow-600"
+              leftIcon={<FaPrint />}
+            >
+              Print
+            </Button>
+          </div>
         </div>
       </Card>
       {/* tabel */}
@@ -58,12 +98,12 @@ const DetailStockTransactionPage: FC = function () {
         <InfoScreen
           status={status}
           reload={refetch}
-          dataLength={data?.length}
+          dataLength={data?.data.length}
           error={error}
         >
-          <TabelComponent header={header}>
+          <TabelComponent header={header} pagination={data?.meta}>
             <Table.Body>
-              {data?.map((v, i) => (
+              {data?.data.map((v, i) => (
                 <Table.Row
                   className="hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={i}

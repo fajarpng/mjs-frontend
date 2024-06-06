@@ -63,7 +63,7 @@ export const ModalAddBundling = ({ children, refetch }: TModalBundling) => {
                 </option>
                 {bundlingCode?.data.map((v) => (
                   <option key={v.productCode} value={v.productCode}>
-                    {v.productCode}
+                    {v.productCode} - {v.productName}
                   </option>
                 ))}
               </Select>
@@ -154,7 +154,7 @@ export const ModalUpdateBundling = ({
                 </option>
                 {bundlingCode?.data.map((v) => (
                   <option key={v.productCode} value={v.productCode}>
-                    {v.categoryCode} - {v.categoryName}
+                    {v.productCode} - {v.productName}
                   </option>
                 ))}
               </Select>

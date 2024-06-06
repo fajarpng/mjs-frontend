@@ -13,7 +13,11 @@ const header = ["nip", "name", "code", "address", "phone", "action"];
 
 const SupplierPage: FC = function () {
   const query: any = getQuery();
-  const { data, refetch, error, status } = useSupplier(query);
+  const { data, refetch, error, status } = useSupplier({
+    pageIndex: 1,
+    pageSize: 10,
+    ...query,
+  });
 
   return (
     <div>
@@ -41,12 +45,12 @@ const SupplierPage: FC = function () {
         <InfoScreen
           status={status}
           reload={refetch}
-          dataLength={data?.length}
+          dataLength={data?.data.length}
           error={error}
         >
-          <TabelComponent header={header}>
+          <TabelComponent header={header} pagination={data?.meta}>
             <Table.Body>
-              {data?.map((v, i) => (
+              {data?.data.map((v, i) => (
                 <Table.Row
                   className="hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={i}

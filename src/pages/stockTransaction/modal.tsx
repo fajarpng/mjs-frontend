@@ -15,7 +15,7 @@ interface TModalStock {
 }
 
 export const ModalAddStock = ({ children, refetch }: TModalStock) => {
-  const { data: supplier } = useSupplier();
+  const { data: supplier } = useSupplier({ pageIndex: 1, pageSize: 1000 });
 
   const {
     register,
@@ -79,7 +79,7 @@ export const ModalAddStock = ({ children, refetch }: TModalStock) => {
                   select stock supplier
                 </option>
                 <option value="No-Supp">No-Supp</option>
-                {supplier?.map((v, i) => (
+                {supplier?.data.map((v, i) => (
                   <option key={i} value={v.supplierCode}>
                     {v.supplierCode} - {v.supplierName}
                   </option>

@@ -1,15 +1,15 @@
-import type { TStock, TStockDetail } from "../types";
+import type { TPageInfo, TStock, TStockDetail } from "../types";
 import { BASE_URL } from "../utils/config";
 import { apiErrorHandler, errMsg } from "../utils/helper";
 import axiosApiInstance from "./axiosApiInstance";
 
 export async function fetchStock(params?: object) {
   return axiosApiInstance
-    .get<TStock[]>(`${BASE_URL}/stock-transaction`, {
+    .get<{ data: TStock[]; meta: TPageInfo }>(`${BASE_URL}/stock-transaction`, {
       params,
     })
     .then(
-      (res) => res.data,
+      (res) => ({ data: res.data.data, meta: res.data.meta }),
       (err) => {
         throw errMsg(err);
       }
@@ -19,9 +19,9 @@ export async function fetchStock(params?: object) {
 
 export async function fetchDetailStock(id?: number) {
   return axiosApiInstance
-    .get<TStock>(`${BASE_URL}/stock-transaction/${id}`)
+    .get<{ data: TStock }>(`${BASE_URL}/stock-transaction/${id}`)
     .then(
-      (res) => res.data,
+      (res) => res.data.data,
       (err) => {
         throw errMsg(err);
       }
@@ -65,11 +65,16 @@ export async function deleteStock(id?: number) {
     .catch(apiErrorHandler);
 }
 // stock transaction detail
-export async function fetchStockData(stockNumber?: string) {
+export async function fetchStockData(stockNumber?: string, params?: object) {
   return axiosApiInstance
-    .get<TStockDetail[]>(`${BASE_URL}/stock-transaction-detail/${stockNumber}`)
+    .get<{ data: TStockDetail[]; meta: TPageInfo }>(
+      `${BASE_URL}/stock-transaction-detail/${stockNumber}`,
+      {
+        params,
+      }
+    )
     .then(
-      (res) => res.data,
+      (res) => ({ data: res.data.data, meta: res.data.meta }),
       (err) => {
         throw errMsg(err);
       }

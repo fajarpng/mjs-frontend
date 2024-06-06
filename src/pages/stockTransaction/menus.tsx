@@ -1,7 +1,8 @@
-import { FaEye, FaTrash } from "react-icons/fa";
+import { FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import Button from "../../components/button";
 import type { TStock } from "../../types";
 import { ModalDeleteStock } from "./modal";
+import { ModalAddStock } from "../stockTransactionDetail/modal";
 
 interface TAction {
   data: TStock;
@@ -16,11 +17,11 @@ export const ActionMenu = ({ data, refetch }: TAction) => {
           <FaEye />
         </Button>
       </a>
-      {/* <ModalUpdateStock data={data} refetch={refetch}>
+      <ModalAddStock stock={data} refetch={refetch}>
         <Button className="border-2 border-green-500 p-2 text-green-500 hover:bg-green-500 hover:text-white">
-          <FaPen />
+          <FaPlus />
         </Button>
-      </ModalUpdateStock> */}
+      </ModalAddStock>
       <ModalDeleteStock data={data} refetch={refetch}>
         <Button className="border-2 border-red-500 p-2 text-red-500 hover:bg-red-500 hover:text-white">
           <FaTrash />

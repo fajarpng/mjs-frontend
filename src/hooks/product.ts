@@ -5,6 +5,7 @@ import {
   fetchProductBundling,
   fetchProductBundlingDetail,
   fetchProductStockMin,
+  fetchProductTransaction,
 } from "../api/product";
 
 export const useProduct = (query?: object) => {
@@ -34,5 +35,12 @@ export const useProductBundlingDetail = () => {
   const query = { pageIndex: 1, pageSize: 1000 };
   return useQuery(["product/bundlingDetail", query], () =>
     fetchProductBundlingDetail(query)
+  );
+};
+
+export const useProductStockTransaction = () => {
+  const query = { pageIndex: 1, pageSize: 1000 };
+  return useQuery(["product/stockTransaction", query], () =>
+    fetchProductTransaction(query)
   );
 };
