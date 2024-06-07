@@ -19,9 +19,9 @@ export async function fetchSupplier(params?: object) {
 
 export async function fetchDetailSupplier(id?: number) {
   return axiosApiInstance
-    .get<TSupplier>(`${BASE_URL}/supplier/${id}`)
+    .get<{ data: TSupplier }>(`${BASE_URL}/supplier/${id}`)
     .then(
-      (res) => res.data,
+      (res) => res.data.data,
       (err) => {
         throw errMsg(err);
       }

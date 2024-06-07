@@ -55,9 +55,9 @@ export async function deleteBundling(id?: number) {
 // bundling detail
 export async function fetchBundlingDetail(code?: string) {
   return axiosApiInstance
-    .get<TBundlingDetail>(`${BASE_URL}/bundling/${code}`)
+    .get<{ data: TBundlingDetail }>(`${BASE_URL}/bundling/${code}`)
     .then(
-      (res) => res.data,
+      (res) => res.data.data,
       (err) => {
         throw errMsg(err);
       }
