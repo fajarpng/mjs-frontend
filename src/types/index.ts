@@ -188,3 +188,14 @@ export interface TAttendanceConfig {
   minCheckoutTime: string;
   maxCheckoutTime: string;
 }
+// interface leave permits
+export interface TLeavePermit {
+  id: number;
+  employeeId: number;
+  type: string;
+  status: string;
+  requestDate: Date;
+  startDate: Date;
+  endDate: Date;
+  remarks: string;
+}
