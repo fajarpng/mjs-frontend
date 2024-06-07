@@ -9,7 +9,7 @@ import { getQuery } from "../../utils/helper";
 import { ActionMenu } from "./menus";
 import { ModalAddProduct } from "./modal";
 
-const header = ["name", "rak", "quantity", "quantity min", "action"];
+const header = ["name", "quantity", "description", "action"];
 
 const AssetProductPage: FC = function () {
   const query: any = getQuery();
@@ -75,14 +75,10 @@ const AssetProductPage: FC = function () {
                     {" - " + v.productName}
                   </td>
                   <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    <span className=" font-semibold">{v.rakCode}</span>
-                    {" - " + v.rakName}
-                  </td>
-                  <td className="w-32 whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
                     {v.qty}
                   </td>
-                  <td className="w-32 whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {v.qtyMin}
+                  <td className="whitespace-nowrap p-2 text-sm font-medium text-gray-900 dark:text-white">
+                    {v.description || "-"}
                   </td>
                   <td className="w-[50px]">
                     <ActionMenu data={v} refetch={refetch} />

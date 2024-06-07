@@ -4,11 +4,8 @@ import { useReactToPrint } from "react-to-print";
 import Button from "../../components/button";
 import type { TProduct } from "../../types";
 import { useRef } from "react";
-import {
-  ModalDeleteProduct,
-  ModalDetailProduct,
-  ModalUpdateProduct,
-} from "../products/modal";
+import { ModalDeleteProduct, ModalDetailProduct } from "../products/modal";
+import { ModalUpdateProduct } from "./modal";
 
 interface TAction {
   data: TProduct;
