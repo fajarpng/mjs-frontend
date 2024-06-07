@@ -18,6 +18,7 @@ import BundlingDetailPage from "../pages/bundlingDetail";
 import DetailStockTransactionPage from "../pages/stockTransactionDetail";
 import DashboardPage from "../pages/dashboard";
 import RakPage from "../pages/rak";
+import AssetProductPage from "../pages/assets";
 
 // import DashboardPage from "../pages";
 
@@ -48,6 +49,7 @@ const MainContent = function () {
           <Route path="/" element={<DashboardPage />} index />
           {/* product routes */}
           <Route path="/product" element={<MasterProductPage />} />
+          <Route path="/asset" element={<AssetProductPage />} />
           <Route path="/category-product" element={<CategoryPage />} />
           <Route path="/rak-product" element={<RakPage />} />
           <Route path="/stock-opname" element={<StockOpnamePage />} />

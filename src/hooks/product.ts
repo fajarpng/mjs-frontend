@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
 import {
+  fetchAssetProduct,
   fetchDetailProduct,
   fetchProduct,
   fetchProductBundling,
@@ -10,6 +11,10 @@ import {
 
 export const useProduct = (query?: object) => {
   return useQuery(["product", query], () => fetchProduct(query));
+};
+
+export const useAssetProduct = (query?: object) => {
+  return useQuery(["product/asset", query], () => fetchAssetProduct(query));
 };
 
 export const useDetailProduct = (id?: number) => {
