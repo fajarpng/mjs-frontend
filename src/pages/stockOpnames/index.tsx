@@ -11,9 +11,12 @@ import { ModalAddStockOpname } from "./modal";
 
 const header = ["code", "status", "note", "action"];
 
-const EmployeePage: FC = function () {
+const StockOpnamePage: FC = function () {
   const query: any = getQuery();
-  const { data, refetch, error, status } = useStockOpname(query);
+  const { data, refetch, error, status } = useStockOpname({
+    pageSize: 50,
+    ...query,
+  });
 
   return (
     <div>
@@ -74,4 +77,4 @@ const EmployeePage: FC = function () {
   );
 };
 
-export default EmployeePage;
+export default StockOpnamePage;

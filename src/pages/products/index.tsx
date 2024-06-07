@@ -15,7 +15,7 @@ const MasterProductPage: FC = function () {
   const query: any = getQuery();
   const { data, refetch, error, status } = useProduct({
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 50,
     ...query,
   });
 

@@ -167,3 +167,24 @@ export interface TDetailOpname {
   createdAt: Date;
   updatedAt: Date;
 }
+// interface attendance
+export interface TAttendance {
+  id: number;
+  employeeId: number;
+  date: Date;
+  checkInTime?: string;
+  checkOutTime?: string;
+  leavePermitId?: string;
+  remarks: string;
+  createdAt: Date;
+  updatedAt: Date;
+  leavePermit?: string;
+  employee: TEmployee;
+}
+export interface TAttendanceConfig {
+  timezone: string;
+  minCheckinTime: string;
+  maxCheckinTime: string;
+  minCheckoutTime: string;
+  maxCheckoutTime: string;
+}

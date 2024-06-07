@@ -21,10 +21,22 @@ export const nav: TNav[] = [
     name: "Dashboard",
   },
   {
-    type: "item",
+    type: "collapse",
     icon: FaUserAlt,
-    key: "/employee",
+    key: "employee",
     name: "Employee",
+    children: [
+      {
+        type: "item",
+        key: "/employee",
+        name: "Employee List",
+      },
+      {
+        type: "item",
+        key: "/attendance",
+        name: "Attendance",
+      },
+    ],
   },
   {
     type: "collapse",

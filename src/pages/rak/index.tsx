@@ -15,7 +15,7 @@ const RakPage: FC = function () {
   const query: any = getQuery();
   const { data, refetch, error, status } = useRak({
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 50,
     ...query,
   });
 

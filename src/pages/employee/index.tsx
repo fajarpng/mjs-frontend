@@ -23,7 +23,10 @@ const header = [
 
 const EmployeePage: FC = function () {
   const query: any = getQuery();
-  const { data, refetch, error, status } = useEmployee(query);
+  const { data, refetch, error, status } = useEmployee({
+    pageSize: 50,
+    ...query,
+  });
 
   return (
     <div>

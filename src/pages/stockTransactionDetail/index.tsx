@@ -30,7 +30,7 @@ const DetailStockTransactionPage: FC = function () {
     stockNumber: stock?.number,
     query: {
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 50,
       ...query,
     },
   });

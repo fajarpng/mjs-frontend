@@ -12,7 +12,7 @@ const ProductStockMin: FC = function () {
   const query: any = getQuery();
   const { data, refetch, error, status } = useProductStockMin({
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 50,
     ...query,
   });
 

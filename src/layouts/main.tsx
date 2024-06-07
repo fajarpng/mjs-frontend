@@ -5,20 +5,21 @@ import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
 import { useAuth } from "../hooks/auth";
 import PageNotFound from "../pages/PageNotFound";
+import AssetProductPage from "../pages/assets";
+import AttendancePage from "../pages/attendance";
 import SignInPage from "../pages/authentication/sign-in";
-import CategoryPage from "../pages/category";
-import ChangePasswordPage from "../pages/changePassword";
-import EmployeePage from "../pages/employee";
-import MasterProductPage from "../pages/products";
-import StockOpnamePage from "../pages/stockOpnames";
-import StockTransactionPage from "../pages/stockTransaction";
-import SupplierPage from "../pages/supplier";
 import BundlingPage from "../pages/bundling";
 import BundlingDetailPage from "../pages/bundlingDetail";
-import DetailStockTransactionPage from "../pages/stockTransactionDetail";
+import CategoryPage from "../pages/category";
+import ChangePasswordPage from "../pages/changePassword";
 import DashboardPage from "../pages/dashboard";
+import EmployeePage from "../pages/employee";
+import MasterProductPage from "../pages/products";
 import RakPage from "../pages/rak";
-import AssetProductPage from "../pages/assets";
+import StockOpnamePage from "../pages/stockOpnames";
+import StockTransactionPage from "../pages/stockTransaction";
+import DetailStockTransactionPage from "../pages/stockTransactionDetail";
+import SupplierPage from "../pages/supplier";
 
 // import DashboardPage from "../pages";
 
@@ -65,6 +66,7 @@ const MainContent = function () {
           <Route path="/supplier" element={<SupplierPage />} />
           {/* user routes */}
           <Route path="/employee" element={<EmployeePage />} />
+          <Route path="/attendance" element={<AttendancePage />} />
           {/* other routes */}
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
